@@ -97,6 +97,7 @@ blocks:
 
 
   - type: text
+    title: "Project Outcome"
     content: >
       Models that were generated can be used for any application that requires 6D pose of a part. 
       Applications could include part inspection, line validation/part tracking, typical robotics and humanoid robotics.

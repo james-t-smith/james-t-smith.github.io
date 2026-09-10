@@ -22,7 +22,7 @@
 
 \projectInteractiveFallback{}{Automatic Calibration Procedure}{An automated procedure for calculating the matrix transformation mapping camera frame coordinates to robot frame coordinates}{VIDEO}
 
-\projectText{Outcome}{The robot was able to load the fixture reliably for a layer of 20 parts. The detection model and camera calibration were able to transform coordinate systems within tolerence.  The main software stack created a modular colaborative robot interface reusable for any future applications.}
+\projectText{Project Outcome}{The robot was able to load the fixture reliably for a layer of 20 parts. The detection model and camera calibration were able to transform coordinate systems within tolerence.  The main software stack created a modular colaborative robot interface reusable for any future applications.}
 
 
 \projectClose
@@ -66,82 +66,6 @@
 
 
 \projectClose
-\projectOpen{Autonomous Line-Following Robot}{PID-tuned mobile robot with adaptive speed control}
-\metaRow{DATES}{Jan 2026 – Mar 2026}
-\metaRow{ROLE}{Solo project}
-\metaRow{TAGS}{Embedded Systems, Control Theory, PCB Design}
-\metaRow{TOOLS}{STM32, KiCad, C, MATLAB}
-\metaRow{TEAM SIZE}{1 (solo)}
-\metaRow{COURSE}{Independent study}
-\metaClose
-
-\projectSummary{A two-wheeled autonomous robot that follows a taped track using an IR sensor array and a tuned PID control loop, holding speed through sharp corners without losing the line.
-}
-
-\projectPhoto{media/projects/line-follower-robot/cover.jpg}{Final chassis, top view}{Custom PCB mounted above the IR sensor array and drive motors.}
-
-\begin{projectGallery}{Build process}
-\projectGalleryItem{media/projects/line-follower-robot/build-1.jpg}{Bare PCB}{First revision board fresh off the mill.}{0.31}
-\projectGalleryItem{media/projects/line-follower-robot/build-2.jpg}{Populated board}{Sensor array and motor drivers soldered in.}{0.31}
-\projectGalleryItem{media/projects/line-follower-robot/build-3.jpg}{Chassis assembly}{3D-printed chassis with motors mounted.}{0.31}
-\end{projectGallery}
-
-\projectText{Control loop redesign}{The first revision used a fixed-gain proportional controller, which oscillated badly on tight corners. Moving to a full PID loop with gain scheduling based on error magnitude let the robot hold near-top speed on straights while slowing smoothly into turns.}
-
-\projectPhoto{media/projects/line-follower-robot/pid-tuning.jpg}{Tuning session}{Logging sensor error against wheel speed to hand-tune PID gains.}
-
-\projectText{}{Final lap times improved by 38\% over the proportional-only version, with zero track departures across 20 consecutive test laps.}
-
-
-\projectClose
-\projectOpen{Modular PCB Sensor Hub}{Stackable environmental sensor boards over I2C}
-\metaRow{DATES}{May 2025 – Jul 2025}
-\metaRow{ROLE}{Hardware lead, 2-person team}
-\metaRow{TAGS}{PCB Design, Firmware, IoT}
-\metaRow{TOOLS}{Altium Designer, STM32, I2C}
-\metaClose
-
-\projectSummary{A stackable sensor board system where each board adds one environmental sensor over a shared I2C bus, letting a project mix and match temperature, humidity, and air-quality sensing without redesigning the base board.
-}
-
-
-\projectText{}{Each daughter board carries a unique I2C address set by a resistor-strapped address pin, so boards can be stacked in any order and combination without firmware changes on the base.}
-
-\begin{projectGallery}{Individual boards}
-\projectGalleryItem{media/projects/pcb-sensor-hub/board-temp.jpg}{Temperature board}{Single-sensor board, smallest form factor in the stack.}{0.31}
-\projectGalleryItem{media/projects/pcb-sensor-hub/board-humidity.jpg}{Humidity board}{Includes onboard heater trace for condensation prevention.}{0.31}
-\projectGalleryItem{media/projects/pcb-sensor-hub/board-airquality.jpg}{Air quality board}{VOC sensor with dedicated shielding to reduce PCB heat coupling.}{0.31}
-\end{projectGallery}
-
-\projectPhoto{media/projects/pcb-sensor-hub/stack-schematic.png}{Bus topology}{Shared I2C bus routed through the board-to-board stacking connector.}
-
-
-\projectClose
-\projectOpen{3-DOF Desktop Robotic Arm}{Inverse-kinematics-driven pick-and-place arm}
-\metaRow{DATES}{Sep 2025 – Dec 2025}
-\metaRow{ROLE}{Mechanical design and firmware}
-\metaRow{TAGS}{Robotics, CAD, Kinematics}
-\metaRow{TOOLS}{SolidWorks, Arduino, Python}
-\metaRow{PRINT TIME}{\textasciitilde{}38 hours total}
-\metaClose
-
-\projectSummary{A three-degree-of-freedom robotic arm with a custom inverse kinematics solver, designed and 3D-printed from scratch for a desktop pick-and-place demo.
-}
-
-\projectPhoto{media/projects/robotic-arm/cover.jpg}{Assembled arm}{Full assembly with gripper attachment at rest position.}
-
-\projectPhoto{media/projects/robotic-arm/cad-overview.png}{CAD overview}{Full linkage assembly modeled before any printing began.}
-
-\projectText{}{Rather than use a lookup table, I derived closed-form inverse kinematics for the 3-link planar arm so any target (x, y) within the workspace maps directly to joint angles — no iterative solving needed on the microcontroller.}
-
-\projectInteractiveFallback{media/projects/robotic-arm/gripper-jaw-render.png}{Gripper jaw (interactive)}{Drag to rotate — this is the actual print file for the final jaw geometry.}{3D MODEL}
-
-\projectText{}{The gripper jaw went through four print iterations to get enough compliance to grip irregular objects without a force sensor, using a living-hinge geometry at the jaw base.}
-
-\projectInteractiveFallback{media/projects/robotic-arm/pick-and-place-poster.jpg}{Pick-and-place demo}{Arm sorting objects by color using a webcam and OpenCV.}{VIDEO}
-
-
-\projectClose
 \projectOpen{CAD to CV model suite}{Synthetic Dataset Generator and Computer Vision Model Training Suite that created detector }
 \metaRow{DATES}{May 2025 – Jul 2025}
 \metaRow{ROLE}{}
@@ -178,7 +102,7 @@
 \projectGalleryItem{media/projects/Synthetic_CV/real-2.jpg}{Low Abstraction Rendering}{Simulates actual deployment images reinforcing model bahavior.}{0.31}
 \end{projectGallery}
 
-\projectText{}{Models that were generated can be used for any application that requires 6D pose of a part.  Applications could include part inspection, line validation/part tracking, typical robotics and humanoid robotics.}
+\projectText{Project Outcome}{Models that were generated can be used for any application that requires 6D pose of a part.  Applications could include part inspection, line validation/part tracking, typical robotics and humanoid robotics.}
 
 
 \projectClose

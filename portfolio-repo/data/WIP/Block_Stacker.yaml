@@ -1,14 +1,14 @@
-slug: robotic-arm
-title: "3-DOF Desktop Robotic Arm"
-subtitle: "Inverse-kinematics-driven pick-and-place arm"
+slug: Block_Stacker
+title: "3 Axis Block Stacking Robot"
+subtitle: ""
 dates: "Sep 2025 – Dec 2025"
-role: "Mechanical design and firmware"
-tags: ["Robotics", "CAD", "Kinematics"]
-tools: ["SolidWorks", "Arduino", "Python"]
+role: "Member of a 4-Person Student Team"
+tags: ["Robotics", "Controll systems"]
+tools: ["C++"]
 
 extra_fields:
-  - label: "Print time"
-    value: "~38 hours total"
+  - label: "Course"
+    value: "Introduction to Mechatronics"
 
 short_description: >
   A three-degree-of-freedom robotic arm with a custom inverse

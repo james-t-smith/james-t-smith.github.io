@@ -52,7 +52,7 @@ blocks:
     play_type: button
 
   - type: text
-    title: Outcome
+    title: "Project Outcome"
     content: >
       The robot was able to load the fixture reliably for a layer of 20 parts. The detection model and camera calibration were able to transform coordinate systems within tolerence. 
       The main software stack created a modular colaborative robot interface reusable for any future applications. 

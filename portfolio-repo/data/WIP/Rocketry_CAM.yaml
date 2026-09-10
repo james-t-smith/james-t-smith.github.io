@@ -5,26 +5,23 @@
 # website JSON and the LaTeX portfolio section.
 # ============================================================
 
-slug: line-follower-robot
-title: "Autonomous Line-Following Robot"
-subtitle: "PID-tuned mobile robot with adaptive speed control"
-dates: "Jan 2026 – Mar 2026"
+slug: Rocketry_CAM
+title: "Three View Camera Mount System For SuperSonic Rocket"
+subtitle: ""
+dates: "Sept 2025 –  April 2026"
 role: "Solo project"
-tags: ["Embedded Systems", "Control Theory", "PCB Design"]
-tools: ["STM32", "KiCad", "C", "MATLAB"]
+tags: ["", "Control Theory", "PCB Design"]
+tools: [""]
 
 # Dynamic — add as many of these as you want, in any order; each shows
 # up as its own labeled row alongside DATES/ROLE/TAGS/TOOLS above.
-extra_fields:
-  - label: "Team size"
-    value: "1 (solo)"
-  - label: "Course"
-    value: "Independent study"
+#extra_fields:
+#   value: "1 (solo)"
+#  - label: "Course"
+#    value: "Independent study"
 
 short_description: >
-  A two-wheeled autonomous robot that follows a taped track using an
-  IR sensor array and a tuned PID control loop, holding speed through
-  sharp corners without losing the line.
+  Designed and prototyped parts for mounting three cameras to provide external views of a rocket
 
 skills_demonstrated:
   - "PID control tuning"
