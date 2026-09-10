@@ -1,11 +1,19 @@
+\projectOpen{(((p.title|tex)))}{(((p.get('subtitle','')|tex)))}
+\metaRow{DATES}{(((p.get('dates','')|tex)))}
+\metaRow{ROLE}{(((p.get('role','')|tex)))}
 ((* set tags_str = p.get('tags', []) | join(', ') *))
+\metaRow{TAGS}{(((tags_str|tex)))}
 ((* set tools_str = p.get('tools', []) | join(', ') *))
-\projectOpen{(((p.title|tex)))}{(((p.get('subtitle','')|tex)))}{(((p.get('dates','')|tex)))}{(((tags_str|tex)))}{(((tools_str|tex)))}
+\metaRow{TOOLS}{(((tools_str|tex)))}
+((* for f in p.get('extra_fields', []) *))
+\metaRow{(((f.label|upper|tex)))}{(((f.value|tex)))}
+((* endfor *))
+\metaClose
 
 \projectSummary{(((p.short_description|tex)))}
 
-((* if p.main_media *))
-\projectPhoto{(((p.main_media.src)))}{(((p.main_media.get('title','')|tex)))}{(((p.main_media.get('caption','')|tex)))}
+((* if p.preview_image *))
+\projectPhoto{(((p.preview_image.src)))}{(((p.preview_image.get('title','')|tex)))}{(((p.preview_image.get('caption','')|tex)))}
 ((* endif *))
 
 ((* for block in p.get('blocks', []) *))

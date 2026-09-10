@@ -48,10 +48,10 @@
     const card = el('article', 'project-card');
 
     const thumb = el('div', 'thumb');
-    if (project.main_media && project.main_media.type !== 'video') {
+    if (project.preview_image && project.preview_image.src) {
       const img = el('img');
-      img.src = project.main_media.src;
-      img.alt = project.main_media.title || project.title;
+      img.src = project.preview_image.src;
+      img.alt = project.preview_image.title || project.title;
       img.loading = 'lazy';
       thumb.appendChild(img);
     }

@@ -12,42 +12,42 @@
 \RequirePackage{hyperref}
 \RequirePackage{etoolbox}
 
-% length used by \fboxrule for the uniform media border treatment
-\newlength{\mediaBorderWidth}
-\setlength{\mediaBorderWidth}{0.6pt}
+% \mediaFrameColor / \mediaBorderColor / \mediaBorderWidthVal are defined
+% by theme.sty (generated from data/theme.yaml's media: block) — border
+% on/off and the frame background are theme-wide in the PDF. Per-block
+% background/border overrides are a website-only feature (see README).
 
-% ---- project title block -------------------------------------------
-% Plain stacked metadata lines — no table/box borders, larger text
-% (uses \textProjectTitle / \textMetaLabel from theme.sty's type scale,
-% itself generated from data/theme.yaml's type_scale: block).
-\newcommand{\projectOpen}[5]{%
-  % #1 title  #2 subtitle  #3 dates  #4 tags (comma list)  #5 tools (comma list)
+% ---- project open: just the title + subtitle. Metadata (dates, role,
+% tags, tools, and any dynamic extra fields) is printed afterward, one
+% \metaRow per line — this is what makes the metadata section fully
+% dynamic instead of a fixed set of arguments. --------------------------
+\newcommand{\projectOpen}[2]{%
+  % #1 title  #2 subtitle
   \vspace{1.2em}
   {\displayfont\bfseries\textProjectTitle #1}\\[3pt]
-  {\color{steel700}\itshape\textMetaLabel #2}\\[8pt]
+  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\[8pt]}
   \noindent
-  {\monofont\textMetaLabel\color{blueprint500}DATES}\quad{\textMetaLabel #3}\\[3pt]
-  \ifblank{#4}{}{{\monofont\textMetaLabel\color{blueprint500}TAGS}\quad{\textMetaLabel #4}\\[3pt]}
-  \ifblank{#5}{}{{\monofont\textMetaLabel\color{blueprint500}TOOLS}\quad{\textMetaLabel #5}\\[3pt]}
+}
+% one metadata line — label + value, plain text, no table/box border.
+% #1 LABEL (e.g. "DATES", "ROLE", or a custom extra-field label)  #2 value
+\newcommand{\metaRow}[2]{%
+  \ifblank{#2}{}{{\monofont\textMetaLabel\color{blueprint500}#1}\quad{\textMetaLabel #2}\\[3pt]}
+}
+% closes the metadata section: rule + spacing, then the summary follows
+\newcommand{\metaClose}{%
   \vspace{0.5em}
   {\color{blueprint500}\hrule height 0.6pt}
   \vspace{0.8em}
 }
 \newcommand{\projectClose}{\vspace{1.4em}}
 
-% ---- simple entry (design team / internships) — same visual language,
-% but labels the org row correctly instead of misusing TAGS ----
-\newcommand{\entryOpen}[4]{%
-  % #1 title  #2 subtitle  #3 dates  #4 org
+% ---- simple entry (design team / internships) — same visual language ----
+\newcommand{\entryOpen}[2]{%
+  % #1 title  #2 subtitle
   \vspace{1.2em}
   {\displayfont\bfseries\textProjectTitle #1}\\[3pt]
-  {\color{steel700}\itshape\textMetaLabel #2}\\[8pt]
+  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\[8pt]}
   \noindent
-  {\monofont\textMetaLabel\color{blueprint500}DATES}\quad{\textMetaLabel #3}\\[3pt]
-  \ifblank{#4}{}{{\monofont\textMetaLabel\color{blueprint500}ORG}\quad{\textMetaLabel #4}\\[3pt]}
-  \vspace{0.5em}
-  {\color{blueprint500}\hrule height 0.6pt}
-  \vspace{0.8em}
 }
 
 \newcommand{\projectSummary}[1]{%
@@ -69,8 +69,8 @@
 % automatically when only one of width/height is given.
 \newcommand{\projectPhoto}[3]{%
   \begin{center}
-    \fboxsep=0pt\fboxrule=\mediaBorderWidth
-    \fcolorbox{steel700}{white}{%
+    \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
+    \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
       \includegraphics[width=0.85\linewidth,height=0.6\textheight,keepaspectratio]{#1}%
     }\\[4pt]
     {\monofont\textCaption\color{blueprint500} #2}\\
@@ -91,8 +91,8 @@
 \newcommand{\projectGalleryItem}[4]{%
   \begin{minipage}[t]{#4\linewidth}
     \centering
-    \fboxsep=0pt\fboxrule=\mediaBorderWidth
-    \fcolorbox{steel700}{white}{\includegraphics[width=\linewidth]{#1}}\\[3pt]
+    \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
+    \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{\includegraphics[width=\linewidth]{#1}}\\[3pt]
     {\monofont\tiny\color{blueprint500} #2}\\
     {\tiny\color{steel700} #3}
   \end{minipage}\hfill
@@ -103,8 +103,8 @@
 % #1 fallback image  #2 title  #3 caption  #4 kind label ("VIDEO" / "3D MODEL")
 \newcommand{\projectInteractiveFallback}[4]{%
   \begin{center}
-    \fboxsep=0pt\fboxrule=\mediaBorderWidth
-    \fcolorbox{steel700}{white}{%
+    \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
+    \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
       \includegraphics[width=0.7\linewidth,height=0.5\textheight,keepaspectratio]{#1}%
     }\\[4pt]
     {\monofont\textCaption\color{signalamber} [#4 --- VIEW INTERACTIVE ON SITE]}\\

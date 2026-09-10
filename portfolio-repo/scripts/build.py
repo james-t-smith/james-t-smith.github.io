@@ -118,10 +118,17 @@ def build_theme():
     css_lines.append(f"  --line-height-heading: {line_height.get('heading', 1.15)};")
     css_lines.append(f"  --line-height-body: {line_height.get('body', 1.6)};")
     # media framing
-    css_lines.append(f"  --media-border-color: {color_ref(media.get('border_color', 'steel-700'))};")
-    css_lines.append(f"  --media-border-width: {media.get('border_width', '1px')};")
-    css_lines.append(f"  --media-frame-bg: {color_ref(media.get('frame_bg', 'graphite-900'))};")
+    border_enabled = media.get("border_enabled", False)
+    border_color_hex = color_ref(media.get("border_color", "steel-700"))
+    border_width = media.get("border_width", "1px")
+    css_lines.append(f"  --media-frame-bg: {color_ref(media.get('frame_bg', 'paper'))};")
     css_lines.append(f"  --media-max-height: {media.get('max_height', '70vh')};")
+    css_lines.append(f"  --media-border-color: {border_color_hex};")
+    css_lines.append(f"  --media-border-width: {border_width};")
+    # single var the CSS border rule actually uses — computed here so the
+    # border_enabled on/off toggle needs no conditional logic in the CSS
+    # itself; JS can still override per-item via inline style.
+    css_lines.append(f"  --media-border-default: {border_width + ' solid ' + border_color_hex if border_enabled else 'none'};")
     # interaction
     css_lines.append(f"  --glow-color: {color_ref(interaction.get('glow_color', 'blueprint-500'))};")
     css_lines.append(f"  --glow-strength: {interaction.get('glow_strength', '0 0 0 3px')};")
@@ -174,6 +181,25 @@ def build_theme():
     for key, sizes in type_scale.items():
         camel = "".join(w.capitalize() for w in key.split("_"))
         tex_lines.append(f"\\newcommand{{\\text{camel}}}{{{sizes['pdf']}}}")
+
+    tex_lines += [
+        "",
+        "% --- media framing (from data/theme.yaml media:) — computed here",
+        "% so portfolio-macros.sty needs no runtime conditionals for the",
+        "% border_enabled on/off toggle. Per-block background/border",
+        "% overrides are a website-only feature (see README); the PDF",
+        "% always uses these theme-wide defaults.",
+    ]
+    frame_color_name = media.get("frame_bg", "paper").replace("-", "")
+    border_color_name = media.get("border_color", "steel-700").replace("-", "")
+    tex_lines.append(f"\\newcommand{{\\mediaFrameColor}}{{{frame_color_name}}}")
+    if border_enabled:
+        tex_lines.append(f"\\newcommand{{\\mediaBorderColor}}{{{border_color_name}}}")
+        tex_lines.append(r"\newcommand{\mediaBorderWidthVal}{0.6pt}")
+    else:
+        tex_lines.append(f"\\newcommand{{\\mediaBorderColor}}{{{frame_color_name}}}")  # invisible: matches the fill
+        tex_lines.append(r"\newcommand{\mediaBorderWidthVal}{0pt}")
+
     sty_out = LATEX / "shared" / "theme.sty"
     sty_out.parent.mkdir(parents=True, exist_ok=True)
     sty_out.write_text("\n".join(tex_lines) + "\n", encoding="utf-8")
@@ -189,7 +215,12 @@ def validate_project(proj: dict, path: Path):
     for key in required:
         if key not in proj:
             sys.exit(f"ERROR: {path.name} is missing required field '{key}'")
-    for block in proj.get("blocks", []):
+    blocks = proj.get("blocks", [])
+    if not isinstance(blocks, list):
+        sys.exit(f"ERROR: {path.name} 'blocks' must be a list (each entry starting with '-').")
+    for block in blocks:
+        if not isinstance(block, dict):
+            sys.exit(f"ERROR: {path.name} has a blocks: entry that isn't a mapping — check its indentation.")
         if block.get("type") not in VALID_BLOCK_TYPES:
             sys.exit(
                 f"ERROR: {path.name} has block type '{block.get('type')}' — "
@@ -203,13 +234,23 @@ def validate_project(proj: dict, path: Path):
                     f"ERROR: {path.name} video block has play_type '{block['play_type']}' — "
                     f"must be one of {sorted(VALID_VIDEO_PLAY_TYPES)}"
                 )
-    mm = proj.get("main_media")
-    if mm and mm.get("type") == "video" and "play_type" in mm:
-        if mm["play_type"] not in VALID_VIDEO_PLAY_TYPES:
-            sys.exit(
-                f"ERROR: {path.name} main_media video has play_type '{mm['play_type']}' — "
-                f"must be one of {sorted(VALID_VIDEO_PLAY_TYPES)}"
-            )
+    preview = proj.get("preview_image")
+    if preview is not None and not isinstance(preview, dict):
+        sys.exit(
+            f"ERROR: {path.name} 'preview_image' must be a single mapping, not a list — "
+            f"check for a stray '-' under preview_image: (it holds exactly one image, "
+            f"with at least a 'src')."
+        )
+    if preview is not None and "src" not in preview:
+        sys.exit(f"ERROR: {path.name} 'preview_image' is missing 'src'")
+
+    extra_fields = proj.get("extra_fields")
+    if extra_fields is not None:
+        if not isinstance(extra_fields, list):
+            sys.exit(f"ERROR: {path.name} 'extra_fields' must be a list of {{label, value}} entries.")
+        for f in extra_fields:
+            if not isinstance(f, dict) or "label" not in f or "value" not in f:
+                sys.exit(f"ERROR: {path.name} each extra_fields entry needs both 'label' and 'value'.")
 
 
 def build_projects():

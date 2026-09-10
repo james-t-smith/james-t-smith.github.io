@@ -6,24 +6,21 @@ tags: ["Manufacturing Automation", "Computer Vision"]
 tools: ["ROS2", "C++", "Python","ONNX Runtime","Ultralytics YOLO"]
 
 short_description: >
-  A ROS application for driving a Colaborative Robot, streaming from a RGB-D camera, 
+  A ROS2 application for manipulating a Yaskawa Motoman Colaborative Robot, streaming from a RGB-D camera, 
   and integrating the two with a YOLO based CV detector.
 
 skills_demonstrated:
-  - "Inverse kinematics derivation"
-  - "Parametric CAD modeling"
-  - "Servo control and calibration"
+  - "Manufacturing Automation"
+  - "Computer Vision"
+  - "Robotics Operating Systems"
+
+preview_image:
+  src: "media/projects/Cobot_OS/cobot_layer_preview.png"
+  title: "Robot and Live Dashboard"
+  caption: "Pick and Place application live dashboard with RGB and Depth streams, and part bounding boxes."
 
 #links:
-#  github: "https://github.com/yourusername/robotic-arm"
-
-main_media:
-    type: video
-    src: "media/projects/Cobot_OS/Cobot_Layer_Web.mp4"
-    title: "Live  Demo with Dashboard"
-    caption: "Robot Detecting and Pick/Placing one layer of parts into a fixture with <10mm positional tolerence."
-    play_type: button
-
+#  github: "https://github.com/yourusername/robotic-arm
     #pdf_fallback: "media/projects/Cobot_OS/cobot_leyer_preview.png"
 
 blocks:
@@ -35,6 +32,11 @@ blocks:
       a camera streamer, a part detection model, and an aoutomatic calibration sequence. All these features composed
        a modular robotics system not just a singular automated proccess. 
 
+  - type: video
+    src: "media/projects/Cobot_OS/Cobot_Layer_Web.mp4"
+    title: "Live  Demo with Dashboard"
+    caption: "Robot Detecting and Pick/Placing one layer of parts into a fixture with <10mm positional tolerence."
+    play_type: automatic
 
   - type: text
     content: >
@@ -50,14 +52,10 @@ blocks:
     play_type: button
 
   - type: text
+    title: Outcome
     content: >
-      The gripper jaw went through four print iterations to get
-      enough compliance to grip irregular objects without a force
-      sensor, using a living-hinge geometry at the jaw base.
+      The robot was able to load the fixture reliably for a layer of 20 parts. The detection model and camera calibration were able to transform coordinate systems within tolerence. 
+      The main software stack created a modular colaborative robot interface reusable for any future applications. 
+      
 
-  #- type: video
-  #  src: "media/projects/Cobot_OS/Cobot_Layer_Web.mp4"
-    #poster: "media/projects/Cobot_OS/.jpg"
-  #  title: "Pick-and-place demo"
-  #  caption: "Arm sorting objects by color using a webcam and OpenCV."
-    #pdf_fallback: "media/projects/robotic-arm/pick-and-place-poster.jpg"
+

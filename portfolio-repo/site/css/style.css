@@ -120,7 +120,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .hero-model {
   aspect-ratio: 1 / 1;
   background: var(--media-frame-bg);
-  border: var(--media-border-width) solid var(--media-border-color);
+  border: var(--media-border-default);
   border-radius: var(--radius-base);
   position: relative;
   overflow: hidden;
@@ -230,8 +230,18 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   color: var(--color-steel-700);
 }
 
-/* ---------- project detail page blocks ---------- */
+/* ---------- project detail page: header ----------
+   Two columns when there's a preview_image (info left, image right);
+   collapses to a single full-width column when a project has none —
+   preview_image is fully optional, so no empty gap is left behind. */
 .project-header { padding: 48px 0 0; }
+.project-header-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+.project-header-grid.no-image { grid-template-columns: 1fr; max-width: 74ch; }
 .project-header h1 {
   font-family: var(--font-display);
   font-size: var(--text-project-title);
@@ -244,7 +254,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   font-size: var(--text-meta-label);
   margin: 0 0 20px;
 }
-.project-body { padding-bottom: 72px; }
+.project-header-image .media-frame { aspect-ratio: 4 / 3; max-height: none; }
+@media (max-width: 760px) {
+  .project-header-grid { grid-template-columns: 1fr; }
+}
+.project-body { padding-bottom: 72px; padding-top: 40px; }
 .block { margin: 0 0 40px; }
 .block-title {
   font-family: var(--font-display);
@@ -264,11 +278,13 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 /* ---------- uniform media framing ----------
    object-fit: contain + a bounded max-height means any aspect ratio
    (portrait, panorama, square, whatever) sits fully visible and
-   undistorted, letterboxed on the frame background, with a clean
-   consistent border — instead of being force-cropped to a fixed ratio. */
+   undistorted, letterboxed on the frame background. Border is OFF by
+   default (theme.yaml media.border_enabled) — --media-border-default
+   resolves to "none" or a real border at build time; a block's own
+   `background`/`border` fields override this per-item via inline style. */
 .media-frame {
   background: var(--media-frame-bg);
-  border: var(--media-border-width) solid var(--media-border-color);
+  border: var(--media-border-default);
   border-radius: var(--radius-base);
   overflow: hidden;
   display: flex;
@@ -401,7 +417,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .model-block {
   aspect-ratio: 4 / 3;
   background: var(--media-frame-bg);
-  border: var(--media-border-width) solid var(--media-border-color);
+  border: var(--media-border-default);
   border-radius: var(--radius-base);
   position: relative;
   overflow: hidden;

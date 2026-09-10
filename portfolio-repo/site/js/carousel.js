@@ -12,7 +12,7 @@
     return e;
   }
 
-  function init(container, items) {
+  function init(container, items, block) {
     if (!items || !items.length) return;
 
     let index = 0;
@@ -22,6 +22,7 @@
     const slides = items.map((item) => {
       const slide = el('div', 'carousel-slide');
       const frame = el('div', 'media-frame');
+      if (window.MediaOverrides && block) window.MediaOverrides.apply(frame, block);
       const img = el('img');
       img.src = item.src;
       img.alt = item.title || '';

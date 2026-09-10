@@ -55,9 +55,12 @@ radius:
 
 media:
   # Uniform framing applied to every embedded photo/video/model/carousel item.
-  border_color: "steel-700"   # references a name from colors: above
+  # Both of these are DEFAULTS — any photo/video/stl/gallery/carousel block
+  # can override background/border for just that item (see README).
+  frame_bg: "fog-100"           # letterbox background behind contain-fit media (was graphite-900 — a dark box behind every photo read as "ugly"; paper blends with the card/page instead)
+  border_enabled: false       # borders are opt-in now, not automatic
+  border_color: "steel-700"   # used only when border_enabled/an item's border: true
   border_width: "1px"
-  frame_bg: "graphite-900"    # letterbox background behind contain-fit media
   max_height: "70vh"          # media never grows taller than this regardless of aspect ratio
 
 interaction:

@@ -7,16 +7,16 @@
 # Edit here, run scripts/build.py, everything updates.
 # ============================================================
 
-name: "Your Name"
+name: "James Smith"
 tagline: "Mechatronics Engineering Student"
-location: "Toronto, ON"
+location: "Waterloo, ON"
 
-email: "you@example.com"
-phone: "+1 (555) 555-5555"
+email: "JamesThomasSmith@outlook.com"
+#phone: "+1 (555) 555-5555"
 
 links:
   github: "https://github.com/yourusername"
   linkedin: "https://linkedin.com/in/yourusername"
-  website: "https://yourusername.github.io"
+  #website: "https://yourusername.github.io"
 
-resume_pdf: "resume.pdf"   # path the site's "download resume" button links to
+resume_pdf: "external_resume/resume.pdf"   # path the site's "download resume" button links to

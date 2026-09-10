@@ -19,6 +19,43 @@
     return e;
   }
 
+  // ---- per-item background/border overrides ----------------------
+  // Any photo/gallery/carousel/video/stl block (or preview_image) can
+  // set its own `background` (a CSS color, or an image path/URL for a
+  // background image) and/or `border` (true/false) — this overrides the
+  // theme-wide defaults (data/theme.yaml media:) for just that item.
+  function applyMediaOverrides(frameEl, data) {
+    if (!data) return;
+    if (data.background) {
+      const bg = data.background;
+      const looksLikeColor = /^#|^rgb|^hsl|^[a-z]+$/i.test(bg.trim()) && !/\.(png|jpe?g|webp|gif|svg)$/i.test(bg);
+      if (looksLikeColor) {
+        frameEl.style.background = bg;
+      } else {
+        frameEl.style.backgroundImage = `url("${bg}")`;
+        frameEl.style.backgroundSize = 'cover';
+        frameEl.style.backgroundPosition = 'center';
+      }
+    }
+    if (typeof data.border === 'boolean') {
+      if (data.border) {
+        const root = getComputedStyle(document.documentElement);
+        const color = root.getPropertyValue('--media-border-color').trim();
+        const width = root.getPropertyValue('--media-border-width').trim();
+        frameEl.style.border = `${width} solid ${color}`;
+      } else {
+        frameEl.style.border = 'none';
+      }
+    }
+  }
+
+  function frame(mediaEl, overrideData) {
+    const f = el('div', 'media-frame');
+    f.appendChild(mediaEl);
+    applyMediaOverrides(f, overrideData);
+    return f;
+  }
+
   // ---- video play_type handling ----------------------------------
   // automatic: autoplay + loop, muted (browser autoplay policy)
   // once:      plays a single time when scrolled into view, then stops
@@ -114,19 +151,19 @@
     return video;
   }
 
-  function frame(mediaEl) {
-    const f = el('div', 'media-frame');
-    f.appendChild(mediaEl);
-    return f;
-  }
-
   function renderTitleBlock(project) {
     const dl = el('dl');
     const rows = [
       ['DATES', project.dates],
+      ['ROLE', project.role],
       ['TAGS', (project.tags || []).join(', ')],
       ['TOOLS', (project.tools || []).join(', ')],
     ];
+    // Dynamic — any number of custom {label, value} rows, in the order
+    // given in the YAML, styled identically to the built-in rows above.
+    (project.extra_fields || []).forEach((f) => {
+      if (f && f.label && f.value) rows.push([f.label.toUpperCase(), f.value]);
+    });
     rows.forEach(([label, value]) => {
       if (!value) return;
       dl.appendChild(el('dt', null, label));
@@ -134,28 +171,6 @@
     });
     const wrap = el('div', 'title-block');
     wrap.appendChild(dl);
-    return wrap;
-  }
-
-  function renderMainMedia(mainMedia) {
-    if (!mainMedia) return null;
-    const wrap = el('div', 'block');
-    if (mainMedia.type === 'image') {
-      const img = el('img');
-      img.src = mainMedia.src;
-      img.alt = mainMedia.title || '';
-      wrap.appendChild(frame(img));
-    } else if (mainMedia.type === 'video') {
-      wrap.appendChild(frame(buildVideoEl(mainMedia)));
-    } else if (mainMedia.type === 'stl') {
-      const modelDiv = el('div', 'model-block');
-      modelDiv.setAttribute('data-model-src', mainMedia.src);
-      if (mainMedia.background) modelDiv.setAttribute('data-model-bg', mainMedia.background);
-      modelDiv.appendChild(el('div', 'model-hint', 'DRAG TO ROTATE'));
-      wrap.appendChild(modelDiv);
-    }
-    if (mainMedia.title) wrap.appendChild(el('div', 'block-caption-title', mainMedia.title));
-    if (mainMedia.caption) wrap.appendChild(el('p', 'block-caption-text', mainMedia.caption));
     return wrap;
   }
 
@@ -176,7 +191,7 @@
       img.src = block.src;
       img.alt = block.title || '';
       img.loading = 'lazy';
-      wrap.appendChild(frame(img));
+      wrap.appendChild(frame(img, block));
       if (block.title) wrap.appendChild(el('div', 'block-caption-title', block.title));
       if (block.caption) wrap.appendChild(el('p', 'block-caption-text', block.caption));
       return wrap;
@@ -192,7 +207,7 @@
         img.src = item.src;
         img.alt = item.title || '';
         img.loading = 'lazy';
-        figure.appendChild(frame(img));
+        figure.appendChild(frame(img, block)); // block-level background/border applies to every item
         if (item.title) figure.appendChild(el('div', 'block-caption-title', item.title));
         if (item.caption) figure.appendChild(el('p', 'block-caption-text', item.caption));
         item_wrap.appendChild(figure);
@@ -210,12 +225,13 @@
       // so caller triggers Carousel.init after appending (see main()).
       wrap.dataset.pendingCarousel = 'true';
       wrap._carouselItems = block.items || [];
+      wrap._carouselBlock = block;
       wrap._carouselEl = carouselEl;
       return wrap;
     }
 
     if (block.type === 'video') {
-      wrap.appendChild(frame(buildVideoEl(block)));
+      wrap.appendChild(frame(buildVideoEl(block), block));
       if (block.title) wrap.appendChild(el('div', 'block-caption-title', block.title));
       if (block.caption) wrap.appendChild(el('p', 'block-caption-text', block.caption));
       return wrap;
@@ -225,6 +241,7 @@
       const modelDiv = el('div', 'model-block');
       modelDiv.setAttribute('data-model-src', block.src);
       if (block.background) modelDiv.setAttribute('data-model-bg', block.background);
+      if (typeof block.border === 'boolean') applyMediaOverrides(modelDiv, { border: block.border });
       modelDiv.appendChild(el('div', 'model-hint', 'DRAG TO ROTATE'));
       wrap.appendChild(modelDiv);
       if (block.title) wrap.appendChild(el('div', 'block-caption-title', block.title));
@@ -258,12 +275,17 @@
 
       if (headerEl) {
         headerEl.innerHTML = '';
-        headerEl.appendChild(el('h1', null, project.title));
-        if (project.subtitle) headerEl.appendChild(el('p', 'subtitle', project.subtitle));
-        headerEl.appendChild(renderTitleBlock(project));
+        const hasImage = !!(project.preview_image && project.preview_image.src);
+        const grid = el('div', 'project-header-grid' + (hasImage ? '' : ' no-image'));
+
+        // ---- left: title, subtitle, metadata, summary, links ----
+        const left = el('div', 'project-header-info');
+        left.appendChild(el('h1', null, project.title));
+        if (project.subtitle) left.appendChild(el('p', 'subtitle', project.subtitle));
+        left.appendChild(renderTitleBlock(project));
         const summary = el('p', null, project.short_description);
         summary.style.marginTop = '20px';
-        headerEl.appendChild(summary);
+        left.appendChild(summary);
 
         if (project.links) {
           const linksWrap = el('div', 'hero-links');
@@ -275,14 +297,27 @@
             a.rel = 'noopener';
             linksWrap.appendChild(a);
           });
-          headerEl.appendChild(linksWrap);
+          left.appendChild(linksWrap);
         }
+        grid.appendChild(left);
+
+        // ---- right: preview_image, only if the project has one ----
+        if (hasImage) {
+          const right = el('div', 'project-header-image');
+          const img = el('img');
+          img.src = project.preview_image.src;
+          img.alt = project.preview_image.title || project.title;
+          right.appendChild(frame(img, project.preview_image));
+          if (project.preview_image.title) right.appendChild(el('div', 'block-caption-title', project.preview_image.title));
+          if (project.preview_image.caption) right.appendChild(el('p', 'block-caption-text', project.preview_image.caption));
+          grid.appendChild(right);
+        }
+
+        headerEl.appendChild(grid);
       }
 
       if (bodyEl) {
         bodyEl.innerHTML = '';
-        const mainMediaEl = renderMainMedia(project.main_media);
-        if (mainMediaEl) bodyEl.appendChild(mainMediaEl);
 
         // Ordered exactly as authored in the YAML file's `blocks:` list —
         // this is the "gallery, then photo, then text, then photo..." control.
@@ -296,7 +331,7 @@
         // Now that carousel containers are in the DOM (and have a real
         // width), initialize each one.
         pendingCarousels.forEach((wrap) => {
-          if (window.Carousel) window.Carousel.init(wrap._carouselEl, wrap._carouselItems);
+          if (window.Carousel) window.Carousel.init(wrap._carouselEl, wrap._carouselItems, wrap._carouselBlock);
         });
       }
 
@@ -308,4 +343,8 @@
   }
 
   main();
+
+  // Exposed so carousel.js can apply the same background/border override
+  // logic to each slide's frame using the carousel block's own fields.
+  window.MediaOverrides = { apply: applyMediaOverrides };
 })();

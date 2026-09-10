@@ -21,10 +21,11 @@
   --text-small: 0.78rem;
   --line-height-heading: 1.1;
   --line-height-body: 1.6;
+  --media-frame-bg: #EDEFF1;
+  --media-max-height: 70vh;
   --media-border-color: #3D4650;
   --media-border-width: 1px;
-  --media-frame-bg: #1C1F22;
-  --media-max-height: 70vh;
+  --media-border-default: none;
   --glow-color: #235789;
   --glow-strength: 0 0 0 3px;
   --hover-lift: -3px;

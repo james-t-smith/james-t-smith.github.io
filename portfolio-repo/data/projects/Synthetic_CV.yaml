@@ -18,16 +18,22 @@ skills_demonstrated:
 #links:
 #  github: "https://github.com/yourusername/pcb-sensor-hub"
 
-main_media:
-  type: video
-  src: "media/projects/Synthetic_CV/Parts_cropped.mp4"
-  title: "Test of Both Detection and Orientation Model on Real Frames"
-  caption: "0% real images trained for this model, pre filtered raw detections"
+preview_image:
+  src: "media/projects/Synthetic_CV/detections_preview.png"
+  title: "Four Class Detections"
+  caption: "0% real images trained or annotated for this model, pre filtered raw detections"
   #pdf_fallback: "media/projects/Synthetic_CV/detections_preview.png"
-  play_type: button
+  #play_type: automatic
 
 
 blocks:
+
+  - type: video
+    src: "media/projects/Synthetic_CV/Parts_cropped.mp4"
+    title: "Test of Both Detection and Orientation Model on Real Frames"
+    caption: "0% real images trained for this model, pre filtered raw detections"
+    #pdf_fallback: "media/projects/Synthetic_CV/detections_preview.png"
+    play_type: automatic
 
   - type: text
     content: >

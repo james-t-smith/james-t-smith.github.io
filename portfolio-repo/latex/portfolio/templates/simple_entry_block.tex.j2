@@ -1,5 +1,11 @@
 ((* for e in entries *))
-\entryOpen{(((e.title|tex)))}{(((e.get('subtitle','')|tex)))}{(((e.get('dates','')|tex)))}{(((e.get('org','')|tex)))}
+\entryOpen{(((e.title|tex)))}{(((e.get('subtitle','')|tex)))}
+\metaRow{DATES}{(((e.get('dates','')|tex)))}
+\metaRow{ORG}{(((e.get('org','')|tex)))}
+((* for f in e.get('extra_fields', []) *))
+\metaRow{(((f.label|upper|tex)))}{(((f.value|tex)))}
+((* endfor *))
+\metaClose
 \projectSummary{(((e.description|tex)))}
 \projectClose
 ((* endfor *))

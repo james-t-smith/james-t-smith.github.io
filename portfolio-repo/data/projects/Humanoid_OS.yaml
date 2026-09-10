@@ -123,6 +123,14 @@ blocks:
     caption: "Robot Picking Up a Part in NVDIA IssacLab developing a RL policy."
     play_type: automatic
 
+  - type: text
+    title: "Project Outcome"
+    content: > 
+      The humanoids operating system had the ability to navigate to any remembered april tag position. 
+      The policy runner could run any RL policy dropped in from an ONNX file. Simalarly, the tracker could track any detection class based on active detector ONNX files. 
+      The reasoning interface could carry out full conversations including describing the scene from the robots perspective, and the robot API library was easily expandable for new robot abilities.  
+
+
 
 
 

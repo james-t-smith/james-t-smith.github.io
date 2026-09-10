@@ -68,30 +68,43 @@ files aren't in the repo, the live site has nothing to show. Run
 
 Every project file supports:
 
-- `slug`, `title`, `subtitle`, `dates`, `tags`, `tools` — metadata,
-  shown in the card grid and the (now borderless, larger-text) metadata
-  block header.
-- `short_description` — shown on the homepage card and at the top of
-  the detail page.
-- `main_media` — one image/video/stl shown right under the title,
-  before any blocks. Same shape as a block (see below) minus the type
-  restriction on ordering.
+- `slug`, `title`, `subtitle`, `short_description` — the basics.
+- **Metadata section** — shown as plain stacked label/value lines (no
+  table/box border, bigger text) at the top of the project page and in
+  the PDF. Built-in fields: `dates`, `role`, `tags` (list), `tools`
+  (list). Beyond those, `extra_fields` is a **dynamic list** —
+  add as many `{label, value}` entries as you want, in any order, and
+  they render exactly like the built-in fields:
+  ```yaml
+  role: "Solo project"
+  extra_fields:
+    - label: "Team size"
+      value: "1 (solo)"
+    - label: "Course"
+      value: "Independent study"
+  ```
+- `preview_image` — **optional**. One image (`src`, plus optional
+  `title`/`caption`). Shows up in three places: the homepage card
+  thumbnail, the right side of the project page's header (next to the
+  title/metadata), and leads into the body blocks below. Leave this
+  key out entirely for a project with no image — the header text just
+  uses the full width instead of leaving an empty gap.
 - `blocks` — an **ordered list**, rendered top to bottom exactly as
-  written. This is what makes block order fully customizable per
-  project (gallery → text → photo → text, or photo → text → gallery,
-  or any order you want). Supported types:
+  written, below the header. This is what makes block order fully
+  customizable per project (gallery → text → photo → text, or photo →
+  text → gallery, or any order you want). Supported types:
 
   | type       | fields                                                   |
   |------------|-----------------------------------------------------------|
   | `text`     | `title` (optional heading), `content`                     |
-  | `photo`    | `src`, `title`, `caption`                                  |
-  | `gallery`  | `title` (heading), `items: [{src, title, caption}, ...]`  — static grid |
+  | `photo`    | `src`, `title`, `caption`, `background`, `border` (see below) |
+  | `gallery`  | `title` (heading), `items: [{src, title, caption}, ...]`, `background`, `border` — static grid |
   | `carousel` | same shape as `gallery` — swipeable/clickable on the site, renders as a static grid in the PDF |
-  | `video`    | `src`, `poster`, `title`, `caption`, `play_type` (see below), `pdf_fallback` |
-  | `stl`      | `src` (a `.stl` file), `title`, `caption`, `autorotate`, `background` (see below), `pdf_fallback` |
+  | `video`    | `src`, `poster`, `title`, `caption`, `play_type` (see below), `background`, `border`, `pdf_fallback` |
+  | `stl`      | `src` (a `.stl` file), `title`, `caption`, `autorotate`, `background`, `border`, `pdf_fallback` |
 
-  Every photo — whether standalone, in a gallery/carousel, or main
-  media — always supports both `title` and `caption`.
+  Every photo — whether standalone, in a gallery/carousel, or the
+  preview image — always supports both `title` and `caption`.
 
 **Video `play_type`** (defaults to `automatic` if omitted):
 
@@ -102,9 +115,18 @@ Every project file supports:
   | `button`    | shows a play-button overlay; playback starts on click |
   | `boomerang` | plays forward, then scrubs back to the start, repeats indefinitely |
 
-**STL `background`**: either a CSS color (`"#0B1116"`) or an image path/URL —
-sets the model viewer's background on the site. Leave it out to use the
-theme's default dark frame background.
+**`background` / `border` (website only)**: any photo, gallery, carousel,
+video, or stl block can override the theme's default media framing for
+just that one item:
+- `background`: a CSS color (`"#0B1116"`) or an image path/URL.
+- `border`: `true` or `false` — overrides `theme.yaml`'s
+  `media.border_enabled` default for that item.
+
+These two are a **website-only** feature — the PDF always uses the
+theme-wide defaults (`data/theme.yaml`'s `media:` block), since baking
+arbitrary per-item colors into LaTeX isn't worth the complexity for a
+static document. Set the global look in `theme.yaml` and it applies to
+both; use per-item overrides only for site-specific polish.
 
 Site vs. PDF for `video`/`stl` blocks: the website renders these as a
 real `<video>` player (with the play-type behavior above) or a live
@@ -115,9 +137,11 @@ skip `pdf_fallback`, that block just renders blank in the PDF — always
 provide one.
 
 All embedded media (photos, videos, gallery/carousel items) are
-displayed with `object-fit: contain` inside a bordered frame — any
-aspect ratio (portrait, panorama, square) fits cleanly without being
-cropped or distorted, letterboxed on the frame background.
+displayed with `object-fit: contain` inside a frame — any aspect ratio
+(portrait, panorama, square) fits cleanly without being cropped or
+distorted, letterboxed on the frame background. The frame has **no
+border by default** — turn it on globally via `theme.yaml`'s
+`media.border_enabled`, or per-item via `border: true`.
 
 ## Resume content (data/resume.yaml)
 
@@ -134,8 +158,13 @@ Beyond colors and fonts, `theme.yaml` now has:
 - `type_scale:` — one place to change text sizing everywhere (site
   CSS *and* PDF font-size commands) — hero title, project title,
   section headings, metadata labels, body text, captions.
-- `media:` — border color/width, frame background, and max height
-  applied uniformly to every embedded photo/video/model.
+- `media:` — `frame_bg` (letterbox background behind every photo/video/
+  model, default `paper`/white), `border_enabled` (default `false` —
+  borders are opt-in, not automatic), plus `border_color`/`border_width`
+  for when it's on, and `max_height`. Applies uniformly to every
+  embedded photo/video/model in both the site and the PDF; individual
+  blocks can still override background/border on the website only (see
+  the Project YAML reference above).
 - `interaction:` — hover/focus glow color and strength, card lift
   distance, and transition speed, applied to cards, links, carousel
   controls, and other clickable elements.
