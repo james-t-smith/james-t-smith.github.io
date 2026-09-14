@@ -1,9 +1,9 @@
 slug: Cobot_OS
 title: "Colaborative Robot Convayer Loader"
 subtitle: "ROS based applicartion integrating a Colaborative Robot with Computer Vision system for an automated convayor loading application"
-dates: "Sep 2025 – Dec 2025"
+dates: "May 2026 – Aug 2026"
 tags: ["Manufacturing Automation", "Computer Vision"]
-tools: ["ROS2", "C++", "Python","ONNX Runtime","Ultralytics YOLO"]
+tools: ["ROS2", "C++", "Python","ONNX","Ultralytics YOLO"]
 
 short_description: >
   A ROS2 application for manipulating a Yaskawa Motoman Colaborative Robot, streaming from a RGB-D camera, 
