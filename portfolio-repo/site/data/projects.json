@@ -190,10 +190,6 @@
           "Reinforcement/Machine Learning",
           "Robotics Application Development"
         ],
-        "links": {
-          "github": "https://github.com/yourusername/line-follower-robot",
-          "demo": "https://youtube.com/watch?v=example"
-        },
         "preview_image": {
           "src": "media/projects/Humanoid_OS/humanoid_preview.png",
           "title": "Humanoid Robot and Custom Operator Dashboard",

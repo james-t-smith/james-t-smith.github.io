@@ -25,9 +25,9 @@ skills_demonstrated:
   - "Reinforcement/Machine Learning"
   - "Robotics Application Development"
 
-links:
-  github: "https://github.com/yourusername/line-follower-robot"
-  demo: "https://youtube.com/watch?v=example"
+#links:
+#  github: "https://github.com/yourusername/line-follower-robot"
+#  demo: "https://youtube.com/watch?v=example"
 
 # Main media shown directly under the title/subtitle, before any blocks.
 preview_image:
