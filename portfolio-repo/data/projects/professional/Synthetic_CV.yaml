@@ -45,8 +45,8 @@ blocks:
 
   - type: video
     src: "media/projects/Synthetic_CV/toss-1.mp4"
-    title: "Real Time Detection and Orientation Regression"
-    caption: "f"
+    title: "Detection and Orientation Regression"
+    caption: "Slow motion capture of detection and orientation model capturing 3D revolutions of a moving part"
     play_type: button
     pdf_fallback: "media/projects/Synthetic_CV/toss_preview.png"
   
@@ -71,10 +71,10 @@ blocks:
     items:
       - src: "media/projects/Synthetic_CV/pre-cirriculum-training-crop.png"
         title: "Without Cirriculum"
-        caption: "C."
+        caption: "Pre cirriculum training convergance is noizy and slow."
       - src: "media/projects/Synthetic_CV/post-cirriculum-training-crop.png"
         title: "With Cirriculum"
-        caption: "Includes."
+        caption: "Post cirriculum training converges fast and smoothly."
 
   - type: text
     content: >

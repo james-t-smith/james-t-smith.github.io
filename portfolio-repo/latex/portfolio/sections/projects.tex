@@ -18,7 +18,7 @@
 
 \projectText{}{The roposity was a modular tool for rapidly creating and exporting computer vision models custom to company parts using only a CAD file of the part. It allowed the user to upload CAD files and start the automatic generation/training procedure within minutes, completely bypassing the hours of capturing and annotating training images. It was able to create models that preformed better, overall, and on edge cases, than hand trained alternatives.}
 
-\projectInteractiveFallback{media/projects/Synthetic_CV/toss_preview.png}{Real Time Detection and Orientation Regression}{f}{VIDEO}{0.280\textheight}{0.350\linewidth}{https://james-t-smith.github.io/project.html?slug=Synthetic_CV}
+\projectInteractiveFallback{media/projects/Synthetic_CV/toss_preview.png}{Detection and Orientation Regression}{Slow motion capture of detection and orientation model capturing 3D revolutions of a moving part}{VIDEO}{0.280\textheight}{0.350\linewidth}{https://james-t-smith.github.io/project.html?slug=Synthetic_CV}
 
 \projectText{}{Using PyRender to overlay parts ontop of background images, thousands of unique, annotated training images could be created instantly, completely removing the tedius, hours long proccess of annotating images for computer vision model training.}
 
@@ -27,8 +27,8 @@
 \projectText{}{Datasets could be generated using many randomizing features to strengthen the models edge case preformance. Textures, color, lighting, shadows, blur, size, orientation, and visibility could all be  randomized per part, and scenes could be blured, noized, cropped, and augmented for extra randomization.  Distractors were also randomized to prevent false positive detections and the model learning on static sceness}
 
 \begin{projectGallery}{Effect of Cirriculum on Model Training}{\dimexpr 0.160\textheight+3\baselineskip\relax}
-\projectGalleryItem{media/projects/Synthetic_CV/pre-cirriculum-training-crop.png}{Without Cirriculum}{C.}{0.31}{0.160\textheight}
-\projectGalleryItem{media/projects/Synthetic_CV/post-cirriculum-training-crop.png}{With Cirriculum}{Includes.}{0.31}{0.160\textheight}
+\projectGalleryItem{media/projects/Synthetic_CV/pre-cirriculum-training-crop.png}{Without Cirriculum}{Pre cirriculum training convergance is noizy and slow.}{0.31}{0.160\textheight}
+\projectGalleryItem{media/projects/Synthetic_CV/post-cirriculum-training-crop.png}{With Cirriculum}{Post cirriculum training converges fast and smoothly.}{0.31}{0.160\textheight}
 \end{projectGallery}
 
 \projectText{}{Implamenting a smart dataloader increased both the speed and accuracy of training the orientation model.  The cirruculum was deloped by calculating an overall abstraction score for each image based on the randomized values that made up the image. Images with many annotated parts, high contrast, low blur, and less distractors were given a high abstraction score, and were trained in earlier epochs.  This allowed the model to converge rapidly, within the first quarter of training the model has a good understanding of the parts it is looking for.  Alternatively, images with many distractors, fewer parts, low contrast, and more blur/distortion were given a low abstraction score, and were fed during the later portion of training.  These "realer" images fortified the model, to not just understand the features of the part, but to be able to infer when parts were less visible, or blured. They also  enforced which features were not detections using distractors to prevent false positives.}
