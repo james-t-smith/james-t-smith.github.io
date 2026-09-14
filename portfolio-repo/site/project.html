@@ -9,11 +9,12 @@
 <body>
 
   <header class="site-header wrap">
-    <div class="brand">Your Name</div>
+    <div class="brand" data-brand>Your Name</div>
     <nav>
       <a href="index.html#work">Work</a>
       <a href="index.html#about">About</a>
-      <a href="resume.pdf">Resume</a>
+      <a data-nav-resume href="resume.pdf">Resume</a>
+      <a data-nav-portfolio href="portfolio.pdf">Portfolio (PDF)</a>
     </nav>
   </header>
 
@@ -37,6 +38,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
   <script src="js/model-viewer.js"></script>
+  <script src="js/site-chrome.js"></script>
   <script src="js/carousel.js"></script>
   <script src="js/render-project.js"></script>
 </body>

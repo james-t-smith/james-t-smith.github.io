@@ -2,10 +2,12 @@
   "name": "James Smith",
   "tagline": "Mechatronics Engineering Student",
   "location": "Waterloo, ON",
-  "email": "JamesThomasSmith@outlook.com",
+  "email": "JamesThomasSmith07@icloud.com",
   "links": {
-    "github": "https://github.com/yourusername",
-    "linkedin": "https://linkedin.com/in/yourusername"
+    "github": "https://github.com/james-t-smith",
+    "linkedin": "https://www.linkedin.com/in/james-smith-984b2b3a8/",
+    "website": "https://james-t-smith.github.io/"
   },
-  "resume_pdf": "external_resume/resume.pdf"
+  "resume_pdf": "pdf_src/resume.pdf",
+  "portfolio_pdf": "portfolio.pdf"
 }

@@ -1,0 +1,39 @@
+% coverletter.tex
+% Pairs with resume.tex — same theme, same header block. Both pull
+% from ../shared/theme.sty and ../shared/title.tex, so the cover
+% letter and resume always stay visually aligned automatically; you
+% never need to hand-sync fonts/colors/contact info between the two.
+% Content is auto-generated from data/coverletter.yaml into
+% sections/coverletter_content.tex by scripts/build.py — edit the
+% YAML, not this file.
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{../shared/theme}      % colors/fonts, generated from data/theme.yaml
+\input{../shared/title.tex}       % \myName, \myEmail, etc. — generated from data/title.yaml
+
+\hypersetup{colorlinks=true, urlcolor=blueprint500, linkcolor=blueprint500}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+
+% ---- header — identical treatment to resume.tex's header, so the
+% two documents read as one set when stapled or attached together ----
+\begin{center}
+  {\displayfont\bfseries\LARGE \myName}\\[2pt]
+  {\color{steel700} \myTagline}\\[4pt]
+  \small \myLocation\ \textbar\ \myEmail\ \textbar\ \myPhone\ \textbar\
+  \href{\myGithub}{GitHub} \textbar\ \href{\myLinkedin}{LinkedIn}
+\end{center}
+
+\vspace{1.2em}
+{\color{blueprint500}\hrule height 0.8pt}
+\vspace{1.4em}
+
+% ---- body — auto-generated from data/coverletter.yaml, do not hand-edit sections/coverletter_content.tex ----
+\input{sections/coverletter_content.tex}
+
+\end{document}

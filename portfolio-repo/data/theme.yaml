@@ -16,18 +16,42 @@ colors:
   signal-amber:  "#D98E3B"  # sparse use only — CTA / current-state highlight
 
 fonts:
+  # Font choices — `family` must exactly match a font name already
+  # installed on whatever machine compiles the PDFs (the name as shown
+  # in Windows' Font Settings / macOS Font Book), OR a Google Fonts
+  # family if you re-enable the @import in site/css/style.css. Pick any
+  # family below for each slot (or your own) and re-run scripts/build.py
+  # — this is the exact same mechanism for resume.tex, portfolio.tex,
+  # and coverletter.tex, since all three share this one theme.sty.
+  #
+  #   DISPLAY / HEADING (bold, used at larger sizes) — good options:
+  #     Arial, Helvetica, "Segoe UI", Calibri, Verdana, Tahoma,
+  #     "Trebuchet MS", "Century Gothic", Georgia (serif), Cambria (serif)
+  #
+  #   BODY (readable at small sizes) — good options:
+  #     Arial, "Segoe UI", Calibri, Verdana, Georgia,
+  #     "Times New Roman", Cambria, "Book Antiqua"
+  #
+  #   MONO (metadata labels, tags) — good options:
+  #     "Courier New", Consolas, "Lucida Console", "Cascadia Mono",
+  #     "Cascadia Code", Menlo (macOS), Monaco (macOS)
+  #
+  # Arial / Calibri / Segoe UI / Verdana / Georgia / Times New Roman /
+  # Cambria and Courier New / Consolas all ship by default on Windows.
+  # On macOS, Helvetica / Menlo are the closest native equivalents to
+  # Arial / Courier New. If whatever you pick genuinely isn't installed
+  # on the machine compiling the PDFs, theme.sty's automatic fallback
+  # to DejaVu Sans / DejaVu Sans Mono keeps the build from failing —
+  # you'll just get a plainer look than intended, not an error.
   display:
-    family: "Archivo"
-    weights: [600, 700]
-    google_fonts_id: "Archivo:wght@600;700"
+    family: "Arial"
+    weights: [700]
   body:
-    family: "IBM Plex Sans"
-    weights: [400, 500, 600]
-    google_fonts_id: "IBM+Plex+Sans:wght@400;500;600"
+    family: "Arial"
+    weights: [400]
   mono:
-    family: "IBM Plex Mono"
-    weights: [400, 500]
-    google_fonts_id: "IBM+Plex+Mono:wght@400;500"
+    family: "Courier New"
+    weights: [400]
     usage: "metadata labels, tags, code, data"
 
 # Type scale — edit these to change text sizing sitewide/PDF-wide without
@@ -57,7 +81,7 @@ media:
   # Uniform framing applied to every embedded photo/video/model/carousel item.
   # Both of these are DEFAULTS — any photo/video/stl/gallery/carousel block
   # can override background/border for just that item (see README).
-  frame_bg: "fog-100"           # letterbox background behind contain-fit media (was graphite-900 — a dark box behind every photo read as "ugly"; paper blends with the card/page instead)
+  frame_bg: "paper"           # letterbox background behind contain-fit media (was graphite-900 — a dark box behind every photo read as "ugly"; paper blends with the card/page instead)
   border_enabled: false       # borders are opt-in now, not automatic
   border_color: "steel-700"   # used only when border_enabled/an item's border: true
   border_width: "1px"
@@ -69,3 +93,16 @@ interaction:
   glow_strength: "0 0 0 3px"   # box-shadow spread used for the glow ring
   lift: "-3px"                  # translateY on hover for cards
   transition: "160ms ease"
+
+pdf:
+  # Background color of the PORTFOLIO PDF specifically (latex/portfolio/
+  # portfolio.tex). resume.tex and coverletter.tex intentionally stay
+  # plain white always — that's the expected norm for an ATS-scanned
+  # resume and a formal letter, so they're not configurable here.
+  # Use any name from `colors:` above, or a standard color name like
+  # "white" / "black".
+  background: "fog-100"
+  # Default body text color for the portfolio PDF. If you pick a dark
+  # background above, set this to something light (e.g. "fog-100")
+  # so text stays legible — colors here aren't auto-contrasted for you.
+  text_color: "graphite-900"

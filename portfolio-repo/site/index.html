@@ -9,11 +9,12 @@
 <body>
 
   <header class="site-header wrap">
-    <div class="brand">Your Name</div>
+    <div class="brand" data-brand>Your Name</div>
     <nav>
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="resume.pdf">Resume</a>
+      <a data-nav-resume href="resume.pdf">Resume</a>
+      <a data-nav-portfolio href="portfolio.pdf">Portfolio (PDF)</a>
     </nav>
   </header>
 
@@ -24,21 +25,26 @@
         <h1 data-hero-name>Loading…</h1>
         <p class="tagline" data-hero-tagline></p>
         <p class="lede" data-hero-lede></p>
+        <!-- Optional small bullet points, configured in data/main.yaml's
+             `highlights:` list. Rendered only when that list is
+             non-empty — otherwise this stays hidden with no gap. -->
+        <ul class="hero-highlights" data-hero-highlights hidden></ul>
         <div class="hero-links" data-hero-links></div>
       </div>
-      <!--
       <div class="hero-model" data-model-src="media/hero.stl" data-model-bg="#12161A">
         <div class="model-caption">DRAG TO ROTATE — REPLACE media/hero.stl WITH YOUR OWN PART</div>
       </div>
-    -->
     </section>
-
 
     <div class="dim-rule"></div>
 
     <section id="work">
       <h2 class="section-heading">SELECTED PROJECTS</h2>
-      <div class="project-grid" data-project-grid>
+      <!-- Populated with one .project-category block per data/projects/
+           subfolder (professional, work-in-progress, personal, ...),
+           in the order configured by data/main.yaml's
+           project_categories.order. -->
+      <div class="project-categories" data-project-grid>
         <p style="color:#7C8894">Loading projects…</p>
       </div>
     </section>
@@ -47,7 +53,7 @@
 
     <section id="about">
       <h2 class="section-heading">ABOUT</h2>
-      <p style="max-width:68ch">
+      <p style="max-width:68ch" data-about-text>
         Placeholder about text — replace with your own background, interests,
         and what you're looking for in an internship. Keep this to a short
         paragraph or two; the projects should carry most of the weight.
@@ -67,6 +73,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
   <script src="js/model-viewer.js"></script>
+  <script src="js/site-chrome.js"></script>
   <script src="js/load-projects.js"></script>
 </body>
 </html>

@@ -46,21 +46,24 @@ def make_placeholder(path: Path, label: str, size=(1200, 800)):
 
 def collect_media_paths():
     paths = []
-    for yml in sorted(DATA.glob("*.yaml")):
+    for yml in sorted(DATA.glob("*/*.yaml")):  # data/projects/<category>/*.yaml
         proj = yaml.safe_load(yml.read_text())
-        mm = proj.get("main_media")
-        if mm:
-            paths.append((mm["src"], proj["title"] + " — cover"))
+        preview = proj.get("preview_image")
+        if preview:
+            paths.append((preview["src"], proj["title"] + " — cover"))
         for block in proj.get("blocks", []):
             if block["type"] == "photo":
                 paths.append((block["src"], block.get("title", proj["title"])))
-            elif block["type"] == "gallery":
+            elif block["type"] in ("gallery", "carousel"):
                 for item in block["items"]:
                     paths.append((item["src"], item.get("title", "")))
             elif block["type"] == "video":
                 if "poster" in block:
                     paths.append((block["poster"], "video poster"))
-            # skip .stl / .mp4 — handled separately / not placeholder-able as JPG
+            elif block["type"] == "stl":
+                if "pdf_fallback" in block:
+                    paths.append((block["pdf_fallback"], block.get("title", "3D model")))
+            # skip the actual .stl / .mp4 source files — not placeholder-able as JPG
     return paths
 
 

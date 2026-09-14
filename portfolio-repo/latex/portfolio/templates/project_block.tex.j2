@@ -13,7 +13,7 @@
 \projectSummary{(((p.short_description|tex)))}
 
 ((* if p.preview_image *))
-\projectPhoto{(((p.preview_image.src)))}{(((p.preview_image.get('title','')|tex)))}{(((p.preview_image.get('caption','')|tex)))}
+\projectPhoto{(((p.preview_image.src)))}{(((p.preview_image.get('title','')|tex)))}{(((p.preview_image.get('caption','')|tex)))}{(((p.preview_image.pdf_height)))}{(((p.preview_image.pdf_width)))}
 ((* endif *))
 
 ((* for block in p.get('blocks', []) *))
@@ -21,22 +21,22 @@
 \projectText{(((block.get('title','')|tex)))}{(((block.content|trim|tex)))}
 
 ((* elif block.type == 'photo' *))
-\projectPhoto{(((block.src)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}
+\projectPhoto{(((block.src)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}{(((block.pdf_height)))}{(((block.pdf_width)))}
 
 ((* elif block.type in ('gallery', 'carousel') *))
-\begin{projectGallery}{(((block.get('title','')|tex)))}
+\begin{projectGallery}{(((block.get('title','')|tex)))}{(((block.gallery_needspace)))}
 ((* for item in block['items'] *))
-\projectGalleryItem{(((item.src)))}{(((item.get('title','')|tex)))}{(((item.get('caption','')|tex)))}{0.31}
+\projectGalleryItem{(((item.src)))}{(((item.get('title','')|tex)))}{(((item.get('caption','')|tex)))}{0.31}{(((block.gallery_item_height)))}
 ((* endfor *))
 \end{projectGallery}
 
 ((* elif block.type == 'video' *))
 ((* set fallback = block.get('pdf_fallback') or block.get('poster','') *))
-\projectInteractiveFallback{(((fallback)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}{VIDEO}
+\projectInteractiveFallback{(((fallback)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}{VIDEO}{(((block.pdf_height)))}{(((block.pdf_width)))}{(((p.pdf_url)))}
 
 ((* elif block.type == 'stl' *))
 ((* set fallback = block.get('pdf_fallback', '') *))
-\projectInteractiveFallback{(((fallback)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}{3D MODEL}
+\projectInteractiveFallback{(((fallback)))}{(((block.get('title','')|tex)))}{(((block.get('caption','')|tex)))}{3D MODEL}{(((block.pdf_height)))}{(((block.pdf_width)))}{(((p.pdf_url)))}
 
 ((* endif *))
 ((* endfor *))

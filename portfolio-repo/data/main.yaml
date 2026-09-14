@@ -1,0 +1,52 @@
+# ============================================================
+# Configuration for the MAIN website page (site/index.html) only.
+# Kept separate from data/title.yaml (which is just "who you are" —
+# name/contact — reused by the site header AND both PDFs) so page
+# copy and homepage structure can change without touching identity.
+# Edit here, run scripts/build.py, site/data/main.json updates.
+# ============================================================
+
+hero:
+  # {location} is substituted from data/title.yaml's `location` at
+  # build time. Drop it (or the whole key) if you'd rather not
+  # reference location at all.
+  lede: "Based in {location}. Building robots, PCBs, and control systems."
+
+about:
+  text: >
+    Placeholder about text — replace with your own background, interests,
+    and what you're looking for in an internship. Keep this to a short
+    paragraph or two; the projects should carry most of the weight.
+
+# Optional. A short list of small bullet points shown on the main page,
+# right under the hero (e.g. quick facts, current availability, a
+# pointer to what you're actively building). Leave the list empty, or
+# remove this `highlights:` key entirely, to skip the section — nothing
+# renders and no empty space is left behind.
+highlights:
+  - "Currently open to Summer 2027 internships"
+  - "Based in Toronto, ON — open to remote or hybrid"
+  - "Actively building — see Work in Progress below"
+
+# Controls how data/projects/<category>/ subfolders are ordered and
+# labeled, both on the site and in the portfolio PDF. Any category
+# folder that exists but isn't listed in `order` still shows up (at
+# the end, alphabetically) with a title-cased version of its folder
+# name as the label — you only need to touch this if you want a
+# specific order or a nicer label than "Work In Progress" auto-gives.
+project_categories:
+  order: ["professional"] #, "work-in-progress", "personal"]
+  labels:
+    professional: "Professional Projects"
+ #   work-in-progress: "Work in Progress"
+ #   personal: "Personal Projects"
+  # Optional. Controls the order of projects WITHIN each category —
+  # without this, projects fall back to alphabetical-by-filename, which
+  # rarely matches the order you actually want them read in (e.g. your
+  # strongest project first). List each project's `slug` (not its
+  # filename) in the order you want it to appear; any project in that
+  # category not listed here is appended afterward, alphabetically.
+  project_order:
+    professional: ["Humonoid_OS","Synthetic_CV","Cobot_OS"]
+    # work-in-progress: ["smart-mirror"]
+    # personal: ["robotic-arm"]

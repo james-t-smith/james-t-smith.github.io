@@ -1,0 +1,44 @@
+# ============================================================
+# Cover letter content — pairs with data/resume.yaml. The generated
+# PDF reuses the exact same header block, theme, and fonts as
+# resume.tex (both pull from latex/shared/theme.sty + title.tex), so
+# the two documents always stay visually aligned automatically.
+# Edit here, run scripts/build.py, then compile
+# latex/coverletter/coverletter.tex.
+# ============================================================
+
+recipient:
+  greeting: "Dear Hiring Team,"
+  # Optional — an address/company block shown above the date, one
+  # line per list entry. Leave as [] to skip it entirely.
+  lines: []
+  # e.g.
+  # lines:
+  #   - "Example Robotics Co."
+  #   - "123 Innovation Way"
+  #   - "Toronto, ON"
+
+# "auto" fills in today's date at build time. Set a literal string
+# instead (e.g. "March 3, 2027") to pin it.
+date: "auto"
+
+# Ordered list of body paragraphs — as many as you want.
+body:
+  - >
+    I'm writing to apply for the Mechatronics Engineering Intern
+    position at Example Robotics Co. As a mechatronics engineering
+    student with hands-on experience across embedded systems, PCB
+    design, and control theory, I'm excited about the opportunity to
+    contribute to your automation team.
+  - >
+    In my most recent project, I designed and tuned a PID-controlled
+    line-following robot, improving lap times by 38% over a
+    fixed-gain baseline — the kind of iterative, measurement-driven
+    engineering I'd bring to your team. I've also led a two-person
+    hardware team building a stackable PCB sensor system, and derived
+    closed-form inverse kinematics for a 3-DOF robotic arm.
+  - >
+    I'd welcome the chance to talk about how my background fits your
+    team's needs. Thank you for your time and consideration.
+
+closing: "Sincerely,"

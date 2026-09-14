@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* Fonts are system fonts (Arial, Courier New) configured in
+   data/theme.yaml — no web font loading needed, so no @import here.
+   If you switch theme.yaml back to a Google Fonts family, add an
+   @import for it here to match. */
 @import url('theme-vars.css');
 
 * { box-sizing: border-box; }
@@ -111,6 +114,32 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   max-width: 46ch;
   color: var(--color-steel-700);
 }
+/* ---------- optional hero highlight bullets (data/main.yaml `highlights:`) ----------
+   Small, quiet — quick facts, not a second headline. Hidden entirely
+   (via the `hidden` attribute, set in JS) when the list is empty. */
+.hero-highlights {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hero-highlights li {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-steel-700);
+  padding-left: 16px;
+  position: relative;
+}
+.hero-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 6px; height: 1px;
+  background: var(--color-blueprint-500);
+}
+
 .hero-links { margin-top: 22px; display: flex; gap: 20px; flex-wrap: wrap; }
 .hero-links a {
   font-family: var(--font-mono);
@@ -154,6 +183,21 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   height: 1px;
   background: var(--color-steel-700);
   opacity: 0.35;
+}
+
+/* ---------- project categories (data/projects/<category>/) ----------
+   Each category (professional, work-in-progress, personal, ...) gets
+   its own quiet subheading above its own grid; order + labels come
+   from data/main.yaml's project_categories:. */
+.project-category { margin-bottom: 48px; }
+.project-category:last-child { margin-bottom: 0; }
+.category-heading {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-blueprint-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 18px;
 }
 
 /* ---------- project cards (homepage grid) ---------- */

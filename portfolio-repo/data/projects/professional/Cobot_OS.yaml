@@ -37,6 +37,7 @@ blocks:
     title: "Live  Demo with Dashboard"
     caption: "Robot Detecting and Pick/Placing one layer of parts into a fixture with <10mm positional tolerence."
     play_type: automatic
+    pdf_fallback: "media/projects/Cobot_OS/cobot_layer_preview.png"
 
   - type: text
     content: >
@@ -50,6 +51,7 @@ blocks:
     title: "Automatic Calibration Procedure"
     caption: "An automated procedure for calculating the matrix transformation mapping camera frame coordinates to robot frame coordinates"
     play_type: button
+    pdf_fallback: "media/projects/Cobot_OS/calibration_preview.png"
 
   - type: text
     title: "Project Outcome"

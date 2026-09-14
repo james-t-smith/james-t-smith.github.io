@@ -1,0 +1,66 @@
+# ============================================================
+# Portfolio PDF layout — settings specific to latex/portfolio/
+# portfolio.tex. Kept separate from data/main.yaml (which is about the
+# WEBSITE homepage specifically) and data/theme.yaml (colors/fonts,
+# shared across every document). Edit here, run scripts/build.py
+# (optionally with --pdf), recompile portfolio.tex.
+# ============================================================
+
+title_page:
+  # The title page always shows name/tagline/contact info (from
+  # data/title.yaml) — that part isn't optional. Everything below is
+  # the "hero" portion, and it's fully optional: set show_hero: true
+  # for a minimal, contact-info-only title page with nothing else on it.
+  show_hero: false
+
+  # Static fallback image shown on the title page. PDFs can't show the
+  # site's interactive rotating STL hero, so this is a flat image
+  # instead — reuses the same placeholder as the site's hero by
+  # default. Set to null (or remove the line) to skip the image
+  # entirely, even with show_hero: true.
+  hero_image: "media/hero.jpg"
+
+  # Left null, this falls back to data/main.yaml's hero.lede (with the
+  # same {location} substitution the site does). Set a string here
+  # instead if you want different copy on the PDF title page than on
+  # the site.
+  hero_lede: null
+
+  # Reuses data/main.yaml's top-level `highlights:` list. Set to false
+  # to hide highlights on the title page even if the site shows them.
+  show_highlights: true
+
+layout:
+  # Give every project its own page, and start each category (see
+  # data/main.yaml's project_categories:) on a fresh page too — except
+  # the very first category, which already follows the title page.
+  # Set to false to let projects flow continuously one after another
+  # instead, the way earlier versions of this pipeline did.
+  new_page_per_project: true
+
+  image_sizing:
+    # "dynamic" (default): a project with only one big photo/video/stl
+    # block gets to use nearly the full height allotment below, so the
+    # image fills the page instead of leaving a big blank gap above
+    # the next project's forced page break. A project with several big
+    # blocks splits the allotment between them instead of using the
+    # same fixed size for all of them.
+    # "fixed": every big block always uses max_height_frac, regardless
+    # of how many there are — simpler, closer to the old behavior,
+    # more prone to leftover whitespace on single-image projects.
+    mode: "dynamic"
+    max_height_frac: 0.62   # ceiling, as a fraction of \textheight
+    min_height_frac: 0.28   # floor used in dynamic mode
+
+    # Any individual block — or a project's preview_image — can still
+    # override its own size regardless of mode, by adding
+    # `pdf_height_frac: 0.4` directly on that block/preview_image in
+    # its project YAML file. That value always wins over anything
+    # computed here.
+
+    # Fixed height every gallery/carousel thumbnail uses, as a fraction
+    # of \textheight. Unlike photo/video/stl blocks above, every item
+    # in a gallery always uses this SAME height (letterboxed on the
+    # frame background) — so a portrait photo next to landscape ones
+    # doesn't tower over the row; every tile is a uniform box.
+    gallery_item_height_frac: 0.16

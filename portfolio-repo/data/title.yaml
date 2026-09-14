@@ -11,12 +11,12 @@ name: "James Smith"
 tagline: "Mechatronics Engineering Student"
 location: "Waterloo, ON"
 
-email: "JamesThomasSmith@outlook.com"
-#phone: "+1 (555) 555-5555"
+email: "JamesThomasSmith07@icloud.com"
 
 links:
-  github: "https://github.com/yourusername"
-  linkedin: "https://linkedin.com/in/yourusername"
-  #website: "https://yourusername.github.io"
+  github: "https://github.com/james-t-smith"
+  linkedin: "https://www.linkedin.com/in/james-smith-984b2b3a8/"
+  website: "https://james-t-smith.github.io/"
 
-resume_pdf: "external_resume/resume.pdf"   # path the site's "download resume" button links to
+resume_pdf: "pdf_src/resume.pdf"         # path the site's "Resume" nav link uses
+portfolio_pdf: "portfolio.pdf"   # path the site's "Portfolio (PDF)" nav link uses

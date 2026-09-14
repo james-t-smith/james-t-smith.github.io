@@ -1,0 +1,48 @@
+% Full title page for portfolio.tex. AUTO-GENERATED — see the header
+% comment written by scripts/build.py above this file for the source.
+% \myName / \myTagline / etc. come from ../shared/title.tex, already
+% \input by portfolio.tex before this file, so they don't need to be
+% passed in here.
+\begin{center}
+\vspace*{0.06\textheight}
+{\displayfont\bfseries\textHeroTitle \myName}\\[10pt]
+{\textProjectTitle\color{steel700} \myTagline}\\[16pt]
+\myLocation\ \textbar\ \myEmail\ \textbar\
+\href{\myGithub}{GitHub}\ \textbar\ \href{\myLinkedin}{LinkedIn}\ \textbar\
+\href{\myWebsite}{\myWebsite}
+\end{center}
+
+\vspace{1.4em}
+{\color{blueprint500}\hrule height 1.2pt}
+\vspace{1.8em}
+((* if show_hero *))
+((* if hero_image *))
+\begin{center}
+\fboxsep=0pt\fboxrule=\mediaBorderWidthVal
+\fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
+  \includegraphics[width=0.72\linewidth,height=0.36\textheight,keepaspectratio]{(((hero_image)))}%
+}
+\end{center}
+\vspace{1.6em}
+((* endif *))
+((* if hero_lede *))
+\begin{center}
+\begin{minipage}{0.78\linewidth}
+\centering\textBody\color{steel700} (((hero_lede|trim|tex)))
+\end{minipage}
+\end{center}
+\vspace{1.2em}
+((* endif *))
+((* if highlights *))
+\begin{center}
+\begin{minipage}{0.6\linewidth}
+\begin{itemize}[leftmargin=1.3em]
+((* for h in highlights *))
+\item {\monofont\textCaption\color{steel700} (((h|tex)))}
+((* endfor *))
+\end{itemize}
+\end{minipage}
+\end{center}
+((* endif *))
+((* endif *))
+\vfill

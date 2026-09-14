@@ -1,21 +1,28 @@
 # Portfolio Repo
 
-A single source of content drives both a website and a LaTeX portfolio
-PDF, so you never edit HTML or LaTeX by hand to add a project — you
-edit one YAML file and run one script.
+A single source of content drives a website, a LaTeX resume, a LaTeX
+portfolio PDF, and a LaTeX cover letter — so you never edit HTML or
+LaTeX by hand to add a project or update your info — you edit YAML
+files in `data/` and run one script.
 
 ```
 data/            ← EDIT THESE. Everything else is generated or static.
-  theme.yaml       colors + fonts (single source for site CSS + LaTeX)
-  title.yaml       your name/contact info
-  projects/*.yaml  one file per project — this is where you'll spend most time
+  theme.yaml       colors + fonts (single source for site CSS + all LaTeX docs)
+  title.yaml       your name/contact info (shared by site + resume + portfolio + cover letter)
+  main.yaml        homepage-only config: hero copy, optional highlight bullets, category order
+  portfolio-pdf.yaml   portfolio PDF layout: title page, per-project pages, dynamic image sizing
+  resume.yaml      resume content
+  coverletter.yaml cover letter content
   design-team.yaml, internships.yaml   optional simple entry lists
+  projects/
+    <category>/      one folder per category (see "Project categories" below)
+      *.yaml            one file per project — this is where you'll spend most time
 
 media/           ← your photos, videos, STL files. Shared by site + LaTeX.
 
 site/            ← the website (plain HTML/CSS/JS, no build step to view it)
-latex/           ← resume.tex (ATS-friendly) + portfolio.tex (visual)
-scripts/build.py ← regenerates site JSON + LaTeX partials from /data
+latex/           ← resume/, portfolio/, and coverletter/ — each has its own .tex file
+scripts/build.py ← regenerates site JSON + LaTeX partials from /data, and (optionally) the PDFs
 ```
 
 ## Setup
@@ -24,49 +31,248 @@ scripts/build.py ← regenerates site JSON + LaTeX partials from /data
 
 **Build script**: `pip install pyyaml jinja2 --break-system-packages`
 
-**LaTeX**: needs `xelatex` (not `pdflatex` — the theme uses `fontspec` for
-custom fonts). Any recent TeX Live or MacTeX install has it.
+**LaTeX (for PDFs)**: needs `xelatex` on your PATH (not `pdflatex` — the
+theme uses `fontspec` for custom fonts). Any recent TeX Live or MacTeX
+install provides it. **No Perl is required** — `scripts/build.py --pdf`
+calls `xelatex` directly rather than through `latexmk` (which is a Perl
+wrapper script), so a plain TeX Live install is the only dependency.
 
-**Fonts (recommended)**: the design uses [Archivo](https://fonts.google.com/specimen/Archivo)
-and [IBM Plex Sans / Mono](https://fonts.google.com/specimen/IBM+Plex+Sans).
-Download and install them as system fonts for the intended look. If you
-skip this, the LaTeX docs still compile — `theme.sty` automatically falls
-back to DejaVu Sans/Mono with a warning, so you never get silently blank
-text, just a plainer look than intended.
+**Fonts**: the theme uses **Arial** (headings/body) and **Courier New**
+(metadata labels, tags, code) by default — both ship with Windows and
+macOS, so there's nothing to install before compiling the PDFs or
+viewing the site. `data/theme.yaml` has a full list of other good,
+widely-available font choices for each slot (display/body/mono) as a
+comment right above `fonts:` — swap any `family:` value for one of
+those and re-run `scripts/build.py`. If a machine genuinely has
+neither the configured font nor any fallback (rare — e.g. a bare Linux
+box with no core fonts), `theme.sty` automatically falls back to
+DejaVu Sans/Sans Mono with a build warning, so you never get silently
+blank text, just a plainer look than intended.
+
+**PDF background**: the portfolio PDF's page background and default
+text color are configurable via `data/theme.yaml`'s `pdf:` block
+(`background`, `text_color`) — resume.tex and coverletter.tex
+intentionally stay plain white always, since that's the expected norm
+for an ATS-scanned resume and a formal letter.
 
 ## Everyday workflow: adding a new project
 
 1. Make a folder for its media: `media/projects/<your-slug>/` and drop
    photos/videos/STL files in.
-2. Copy an existing file in `data/projects/` to `data/projects/<your-slug>.yaml`
-   and fill it in. See the block reference below for the content options.
+2. Pick (or make) a category folder under `data/projects/` — e.g.
+   `data/projects/professional/`, `data/projects/personal/`,
+   `data/projects/work-in-progress/` — and copy an existing project
+   file into it as `data/projects/<category>/<your-slug>.yaml`. Fill it
+   in. See the block reference below for the content options.
 3. Run:
    ```
    python scripts/build.py
    ```
 4. Preview the site: `cd site && python -m http.server` then open
    `http://localhost:8000`.
-5. Build the PDFs:
+5. Build the PDFs (resume, portfolio, cover letter) — either let the
+   build script do it for you:
    ```
-   cd latex/resume    && xelatex resume.tex
-   cd latex/portfolio && xelatex portfolio.tex
+   python scripts/build.py --pdf
    ```
+   or compile a single document by hand:
+   ```
+   cd latex/resume       && xelatex resume.tex
+   cd latex/portfolio    && xelatex portfolio.tex
+   cd latex/coverletter  && xelatex coverletter.tex
+   ```
+   (Two passes are needed to fully resolve hyperref cross-references —
+   `--pdf` already runs `xelatex` twice per document for you.)
 
 That's it — no HTML or `.tex` file needs touching for a new project.
 
 **Never hand-edit**: `site/data/*.json`, `site/media/*` (copied fresh
 from top-level `media/` every build), `site/css/theme-vars.css`,
 `latex/shared/theme.sty`, `latex/shared/title.tex`,
-`latex/portfolio/sections/*.tex` — all regenerated by `build.py` and
+`latex/portfolio/sections/*.tex`, `latex/resume/sections/*.tex`,
+`latex/coverletter/sections/*.tex` — all regenerated by `build.py` and
 overwritten on the next run. That said, **do commit these generated
 files to git** (they're not in `.gitignore`) — GitHub Pages serves
 `site/` as-is with no build step of its own, so if the generated
 files aren't in the repo, the live site has nothing to show. Run
 `scripts/build.py` and commit the result before every push.
 
+## Project categories (`data/projects/<category>/`)
+
+Projects now live in category subfolders instead of one flat folder —
+e.g. `data/projects/professional/`, `data/projects/work-in-progress/`,
+`data/projects/personal/`. Each `.yaml` file inside a category folder
+is a project, in exactly the same shape as before (see the "Project
+YAML reference" below) — **the category is just which folder it's in**,
+nothing about the YAML itself changes.
+
+Both the website and the portfolio PDF render one section per
+category, each with its own heading, in the same visual style —
+a `## Professional Projects` heading followed by that category's
+project cards on the site, or a `\section*{Professional Projects}`
+followed by that category's project blocks in the PDF. A category
+folder with no `.yaml` files in it is skipped entirely (no empty
+heading).
+
+Category **order and display labels** are configured centrally in
+`data/main.yaml`:
+```yaml
+project_categories:
+  order: ["professional", "work-in-progress", "personal"]
+  labels:
+    professional: "Professional Projects"
+    work-in-progress: "Work in Progress"
+    personal: "Personal Projects"
+```
+Any category folder that exists on disk but isn't listed in `order`
+still shows up (appended alphabetically after the ordered ones), with
+its folder name auto-title-cased as the label (e.g. a folder named
+`coursework` would show as "Coursework") — you only need to touch
+`labels`/`order` if you want something different from that default.
+
+Add a new category any time by just making a new folder under
+`data/projects/` — no code changes needed.
+
+## Main page config (`data/main.yaml`)
+
+Separate from `data/title.yaml` (which is just "who you are" — name
+and contact info, reused by the site header *and* both PDFs),
+`data/main.yaml` controls copy and structure specific to the homepage:
+
+- `hero.lede` — the one-line sentence under your name/tagline on the
+  site. Supports a `{location}` placeholder that's filled in from
+  `title.yaml`'s `location` at build time.
+- `about.text` — the paragraph shown in the "About" section.
+- `highlights` — an **optional** short list of small bullet points
+  shown right under the hero (quick facts: availability, current
+  focus, whatever's useful). Leave the list empty, or remove the
+  `highlights:` key entirely, and the section doesn't render at
+  all — no empty gap is left behind.
+- `project_categories` — see "Project categories" above.
+
+## Portfolio PDF layout (`data/portfolio-pdf.yaml`)
+
+The portfolio PDF now has a dedicated **title page** (name, tagline,
+contact info, and an optional "hero" section below the divider —
+lede text, highlight bullets, and a static fallback image, since PDFs
+can't show the site's interactive rotating STL hero). Page numbering
+restarts at 1 right after the title page.
+
+Every project gets its own page, and every category (see "Project
+categories" above) starts on a fresh page too — except the first
+category, which already follows straight on from the title page. Turn
+this off (`layout.new_page_per_project: false`) to let projects flow
+continuously one after another instead.
+
+**Dynamic image sizing**: rather than every photo using the same fixed
+size regardless of context, a project with just one big image gets to
+use nearly the full height/width allotment (so it fills the page
+instead of leaving a gap before the next project's forced page
+break); a project with several big blocks — or a gallery/carousel
+alongside one — splits the allotment down between them, so nothing
+gets oversized and spills onto its own mostly-empty overflow page.
+Set `layout.image_sizing.mode: "fixed"` to disable this and always use
+`max_height_frac` for every image, or override a single block's size
+directly by adding `pdf_height_frac: 0.4` to that block (or a
+project's `preview_image`) in its own project YAML file — that always
+wins regardless of mode.
+
+**Interactive blocks (`video`/`stl`) link to the real project page**:
+instead of a generic "view interactive on site" label, the PDF now
+shows a clickable link — and the actual URL text — pointing at that
+specific project's page on your live site
+(`data/title.yaml`'s `links.website` + `/project.html?slug=<slug>`).
+If `links.website` is empty, the label prints without a link instead
+of a dead one.
+
+## Project ordering within a category
+
+By default, projects within a category are ordered alphabetically by
+filename — which rarely matches the order you actually want them read
+in (e.g. your strongest project first). Set it explicitly instead via
+`data/main.yaml`'s `project_categories.project_order`, keyed by
+category folder name, listing each project's `slug` (not its
+filename) in the order you want:
+```yaml
+project_categories:
+  project_order:
+    professional: ["humanoid-robot-os", "cobot-conveyor-loader", "cad-to-cv-suite"]
+```
+Any project in that category not listed is appended afterward,
+alphabetically.
+
+## Page-break and layout polish
+
+A few LaTeX-level details keep the portfolio PDF looking deliberate
+rather than like raw auto-generated output:
+
+- **Headings never get stranded.** Every in-body block heading (a
+  text block's `title`, a gallery's `title`) reserves enough room via
+  `\needspace` to fit itself plus at least a little of what follows;
+  if that doesn't fit on the current page, the whole heading — not
+  just some of its content — moves to the next one together.
+- **Block titles read as clear section markers.** Every in-body
+  heading is automatically uppercased and colored (matching the
+  metadata labels elsewhere in the document), regardless of how it
+  was capitalized in the YAML — so "next steps" and "Project Outcome"
+  both render the same clean way.
+- **Gallery/carousel thumbnails are a uniform size.** Every item in a
+  gallery uses the same fixed height (`portfolio-pdf.yaml`'s
+  `layout.image_sizing.gallery_item_height_frac`), letterboxed on the
+  frame background — so a portrait photo next to landscape ones
+  doesn't tower over the row the way an un-constrained image would.
+- **No widows/orphans.** `\clubpenalty`/`\widowpenalty` are set to
+  their maximum in `portfolio.tex`, so a paragraph never leaves a
+  single line stranded alone at the top or bottom of a page.
+- Photo/video/stl blocks deliberately do **not** reserve space the
+  same way headings do — an embedded image is already one atomic box
+  that can't be split mid-picture, so forcing extra reservation there
+  would fight the dynamic image-sizing feature (a correctly
+  right-sized image getting pushed to its own near-empty page instead
+  of fitting on the current one). Only its caption is kept attached
+  to it (via a no-break line ending), which is the only real risk.
+
+
+
+The site header's brand name and "Resume" link are no longer
+hardcoded — `site/js/site-chrome.js` (included on every page) reads
+`site/data/title.json` and fills them in from `data/title.yaml`'s
+`name` / `resume_pdf`. A "Portfolio (PDF)" link was added the same
+way, driven by `title.yaml`'s new `portfolio_pdf` field.
+
+For either link to actually work, a real PDF has to land at
+`site/resume.pdf` / `site/portfolio.pdf`. `scripts/build.py` now does
+this automatically: every run (not just `--pdf` ones) copies whichever
+compiled PDFs already exist in `latex/resume/` and `latex/portfolio/`
+into `site/`, so the links always point at the most recently compiled
+version. Run `python scripts/build.py --pdf` at least once to produce
+them in the first place.
+
+
+
+`latex/coverletter/coverletter.tex` is a new document that pairs with
+the resume: it pulls the exact same header block from
+`latex/shared/theme.sty` and `latex/shared/title.tex` that
+`resume.tex` does, so the two always stay visually aligned — same
+fonts, same colors, same name/contact line — without any manual
+syncing.
+
+Edit `data/coverletter.yaml` to change the content:
+- `recipient.greeting` — the salutation line (e.g. "Dear Hiring Team,").
+- `recipient.lines` — an optional address/company block shown above
+  the date, one line per list entry. Leave as `[]` to skip it.
+- `date` — `"auto"` fills in today's date at build time; set a literal
+  string instead to pin a specific date.
+- `body` — an ordered list of paragraphs.
+- `closing` — the sign-off line (e.g. "Sincerely,").
+
+Run `python scripts/build.py` (or `--pdf` to also compile it) after
+editing.
+
 ## Project YAML reference
 
-Every project file supports:
+Every project file (now living at `data/projects/<category>/<slug>.yaml`)
+supports:
 
 - `slug`, `title`, `subtitle`, `short_description` — the basics.
 - **Metadata section** — shown as plain stacked label/value lines (no
@@ -143,6 +349,12 @@ distorted, letterboxed on the frame background. The frame has **no
 border by default** — turn it on globally via `theme.yaml`'s
 `media.border_enabled`, or per-item via `border: true`.
 
+Within a category, projects are ordered alphabetically by filename
+(`data/projects/<category>/*.yaml`, sorted). If you want manual
+ordering instead, prefix filenames with a number
+(`01-line-follower-robot.yaml`) or add an `order:` field to the YAML
+and sort by it in `build.py`'s `build_projects()`.
+
 ## Resume content (data/resume.yaml)
 
 Same idea as projects: `data/resume.yaml` has an ordered `sections:`
@@ -154,36 +366,38 @@ hand-edit LaTeX to change resume content.
 
 ## Theme customization (data/theme.yaml)
 
-Beyond colors and fonts, `theme.yaml` now has:
+Beyond colors and fonts, `theme.yaml` has:
 - `type_scale:` — one place to change text sizing everywhere (site
-  CSS *and* PDF font-size commands) — hero title, project title,
+  CSS *and* every PDF's font-size commands) — hero title, project title,
   section headings, metadata labels, body text, captions.
 - `media:` — `frame_bg` (letterbox background behind every photo/video/
   model, default `paper`/white), `border_enabled` (default `false` —
   borders are opt-in, not automatic), plus `border_color`/`border_width`
   for when it's on, and `max_height`. Applies uniformly to every
-  embedded photo/video/model in both the site and the PDF; individual
+  embedded photo/video/model in both the site and the PDFs; individual
   blocks can still override background/border on the website only (see
   the Project YAML reference above).
 - `interaction:` — hover/focus glow color and strength, card lift
   distance, and transition speed, applied to cards, links, carousel
   controls, and other clickable elements.
 
-
+Because `theme.sty` and `title.tex` are shared by `resume.tex`,
+`portfolio.tex`, **and** `coverletter.tex`, a single edit to
+`theme.yaml` (or `title.yaml`) followed by `python scripts/build.py`
+keeps all three PDFs — and the site — visually consistent.
 
 ## Notes on the demo content
 
-The `line-follower-robot`, `robotic-arm`, and `pcb-sensor-hub` projects
-are fake placeholder data demonstrating each block type and several
-different orderings. The `media/` files for them (except the two demo
-`.stl` files) are auto-generated placeholder JPGs — replace both the
-YAML and the media with your own and re-run `scripts/build.py`.
-
-Project order on the site/PDF is currently alphabetical by filename
-(`data/projects/*.yaml`, sorted). If you want manual ordering instead,
-prefix filenames with a number (`01-line-follower-robot.yaml`) or add
-an `order:` field to the YAML and sort by it in `build.py`'s
-`build_projects()`.
+The `line-follower-robot` and `pcb-sensor-hub` (in
+`data/projects/professional/`), `robotic-arm` (in
+`data/projects/personal/`), and `smart-mirror` (in
+`data/projects/work-in-progress/`) projects are fake placeholder data
+demonstrating each block type, several different orderings, and the
+category system itself. The `media/` files for them (except the two
+demo `.stl` files) are auto-generated placeholder JPGs — replace both
+the YAML and the media with your own and re-run `scripts/build.py`.
+`data/coverletter.yaml` is similarly placeholder content addressed to
+a fictional "Example Robotics Co." — replace it before sending anything.
 
 ## Deploying the site
 

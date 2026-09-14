@@ -8,38 +8,56 @@
 \usepackage[margin=0.9in]{geometry}
 \usepackage{titlesec}
 \usepackage{../shared/theme}              % colors/fonts, generated from data/theme.yaml
-\usepackage{../shared/portfolio-macros}   % \projectOpen, \projectPhoto, \projectGallery, ...
+\usepackage{../shared/portfolio-macros}   % \projectOpen, \projectPhoto, \projectGallery, ... (also pulls in enumitem)
 \input{../shared/title.tex}               % \myName, \myEmail, etc. — generated from data/title.yaml
 
 \graphicspath{{../../}}   % so "media/projects/x/cover.jpg" paths in the YAML resolve as-is
 
 \hypersetup{colorlinks=true, urlcolor=blueprint500, linkcolor=blueprint500}
-\pagecolor{white}
 
 \titleformat{\section}{\displayfont\bfseries\textSectionHeading\color{graphite900}}{}{0em}{}[{\color{blueprint500}\titlerule[1pt]}]
 \titlespacing{\section}{0pt}{18pt}{10pt}
 
+% Standard widow/orphan control — never leave a single line of a
+% paragraph stranded alone at the top or bottom of a page. Combined
+% with the \needspace calls inside portfolio-macros.sty (which keep
+% headings, photos, and galleries attached to their content as whole
+% units), this is what keeps page breaks from landing somewhere
+% awkward throughout the document.
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+
 \begin{document}
 
-% ---- cover / header ----
-\begin{center}
-  {\displayfont\bfseries\textHeroTitle \myName}\\[4pt]
-  {\textProjectTitle\color{steel700} \myTagline}\\[8pt]
-  \myLocation\ \textbar\ \myEmail\ \textbar\
-  \href{\myGithub}{GitHub}\ \textbar\ \href{\myLinkedin}{LinkedIn}\ \textbar\
-  \href{\myWebsite}{\myWebsite}
-\end{center}
+% \pdfPageBgColor / \pdfTextColor come from data/theme.yaml's pdf:
+% block (see README) — resume.tex and coverletter.tex intentionally
+% stay plain white, so this configurability lives only here.
+\pagecolor{\pdfPageBgColor}
+\color{\pdfTextColor}
 
-\vspace{1em}
-{\color{blueprint500}\hrule height 1.2pt}
-\vspace{1.5em}
+% ---- title page — sections/title-page.tex is AUTO-GENERATED from
+% data/portfolio-pdf.yaml + data/main.yaml + data/title.yaml. The
+% "hero" portion (lede/highlights/image) is fully optional — see
+% portfolio-pdf.yaml's title_page.show_hero. Page numbering restarts
+% at 1 on the first content page, right after this one. ----
+\thispagestyle{empty}
+\input{sections/title-page.tex}
+\newpage
+\setcounter{page}{1}
 
-\section*{Projects}
+% ---- projects — sections/projects.tex emits one \section*{...} per
+% category (see data/main.yaml's project_categories:), each category
+% (after the first) and each project inside it starting on its own
+% page — configurable via data/portfolio-pdf.yaml's
+% layout.new_page_per_project. ----
 \input{sections/projects.tex}
 
+\newpage
 \section*{Design Team Experience}
 \input{sections/design-team.tex}
 
+\newpage
 \section*{Internships}
 \input{sections/internships.tex}
 

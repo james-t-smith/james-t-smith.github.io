@@ -30,11 +30,12 @@ links:
   demo: "https://youtube.com/watch?v=example"
 
 # Main media shown directly under the title/subtitle, before any blocks.
-main_media:
-  type: image
-  src: "media/projects/Reasoning_Preview.png"
-  title: "Final chassis, top view"
-  caption: "Custom PCB mounted above the IR sensor array and drive motors."
+preview_image:
+  src: "media/projects/Humanoid_OS/humanoid_preview.png"
+  title: "Humanoid Robot and Custom Operator Dashboard"
+  caption: "Still of the robot, and the dashboard with the reasoning (chatbot) interface, and the LiDAR costmap with a navigation path"
+  #pdf_fallback: "media/projects/Synthetic_CV/detections_preview.png"
+  #play_type: automatic
 
 
 # ------------------------------------------------------------
@@ -74,6 +75,7 @@ blocks:
     title: "Three Station Navigation"
     caption: "The Robot planning a workflow to visit three workstations, based on a text prompt, then going to all three."
     play_type: automatic
+    pdf_fallback: "media/projects/Humanoid_OS/nav_2_preview.png"
 
   - type: text
     content: >
@@ -89,6 +91,7 @@ blocks:
     title: "Obstacle Avoidance and Workstsation Navigation"
     caption: "The robot navigating through doors, walking around tables, and docking to a spesific offset from a remembered tag."
     play_type: automatic
+    pdf_fallback: "media/projects/Humanoid_OS/nav_1_preview.png"
 
   - type: text
     content: >
@@ -98,7 +101,6 @@ blocks:
       to the robot, and also in the world coordinate system using simple transforms. The other end of the perception stack was the high level reasoning model. By inerfacing with the QWEN based VLM the robot could asses its surroundings, read instructions, and preform
       intelegent quality assesments on parts based on official specs. These quality assesments would recive only a crop of a bounding box detection and both text and images of what qualities of the part to judge. Composing these features together the robot could detect a spesific part, locate it 6D space, preform an assesment, and track the part holding
       onto its judgement.
-
 
   - type: text
     content: >
@@ -111,6 +113,7 @@ blocks:
     title: "Robot Button Press"
     caption: "Reinforcement learning policy in NVDIA IssacLab and deployed on hardare."
     play_type: automatic
+    pdf_fallback: "media/projects/Humanoid_OS/button_press_split_preview.png"
 
   - type: text
     title: "next steps"
@@ -122,6 +125,7 @@ blocks:
     title: "Reinforcement Learning Part Pickup"
     caption: "Robot Picking Up a Part in NVDIA IssacLab developing a RL policy."
     play_type: automatic
+    pdf_fallback: "media/projects/Humanoid_OS/part_pickup_sim_preview.png"
 
   - type: text
     title: "Project Outcome"

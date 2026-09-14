@@ -1,0 +1,23 @@
+
+
+#BEACH PALLETTE
+colors:
+  graphite-900: "#044458"   # near-black, blue-tinted — primary text / dark surfaces
+  steel-700:    "#044458"   # secondary text, dividers on dark
+  slate-400:    "#395A65"   # muted text, captions
+  fog-100:      "#ECEDD9"   # light neutral background
+  paper:        "#F6F4E9"   # cards / panels on light background
+  blueprint-500: "#75C2AE"  # single accent — links, active states, rules
+  signal-amber:  "#C85B7D"  # sparse use only — CTA / current-state highlight
+
+
+
+# STANDERD COOL BLUE
+  colors:
+  graphite-900: "#1C1F22"   # near-black, blue-tinted — primary text / dark surfaces
+  steel-700:    "#3D4650"   # secondary text, dividers on dark
+  slate-400:    "#7C8894"   # muted text, captions
+  fog-100:      "#EDEFF1"   # light neutral background
+  paper:        "#FFFFFF"   # cards / panels on light background
+  blueprint-500: "#235789"  # single accent — links, active states, rules
+  signal-amber:  "#D98E3B"  # sparse use only — CTA / current-state highlight

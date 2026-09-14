@@ -34,6 +34,8 @@ blocks:
     caption: "0% real images trained for this model, pre filtered raw detections"
     #pdf_fallback: "media/projects/Synthetic_CV/detections_preview.png"
     play_type: automatic
+    pdf_fallback: "media/projects/Synthetic_CV/detections_preview.png"
+
 
   - type: text
     content: >
@@ -44,9 +46,9 @@ blocks:
   - type: video
     src: "media/projects/Synthetic_CV/toss-1.mp4"
     title: "Real Time Detection and Orientation Regression"
-    caption: ""
+    caption: "f"
     play_type: button
-
+    pdf_fallback: "media/projects/Synthetic_CV/toss_preview.png"
   
   - type: text
     content: >
@@ -69,10 +71,10 @@ blocks:
     items:
       - src: "media/projects/Synthetic_CV/pre-cirriculum-training-crop.png"
         title: "Without Cirriculum"
-        #caption: "C."
+        caption: "C."
       - src: "media/projects/Synthetic_CV/post-cirriculum-training-crop.png"
         title: "With Cirriculum"
-        #caption: "Includes."
+        caption: "Includes."
 
   - type: text
     content: >

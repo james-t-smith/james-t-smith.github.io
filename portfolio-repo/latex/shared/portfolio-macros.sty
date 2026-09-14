@@ -11,6 +11,13 @@
 \RequirePackage{enumitem}
 \RequirePackage{hyperref}
 \RequirePackage{etoolbox}
+\RequirePackage{needspace}
+% needspace lets a block check "is there still room for roughly this
+% much content on the current page?" and, if not, push a page break
+% BEFORE the block starts instead of after some of it has already
+% printed — this is what keeps a heading from being stranded alone at
+% the bottom of a page with its paragraph or photo starting fresh on
+% the next one.
 
 % \mediaFrameColor / \mediaBorderColor / \mediaBorderWidthVal are defined
 % by theme.sty (generated from data/theme.yaml's media: block) — border
@@ -24,8 +31,8 @@
 \newcommand{\projectOpen}[2]{%
   % #1 title  #2 subtitle
   \vspace{1.2em}
-  {\displayfont\bfseries\textProjectTitle #1}\\[3pt]
-  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\[8pt]}
+  {\displayfont\bfseries\textProjectTitle #1}\\*[3pt]
+  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\*[8pt]}
   \noindent
 }
 % one metadata line — label + value, plain text, no table/box border.
@@ -45,35 +52,57 @@
 \newcommand{\entryOpen}[2]{%
   % #1 title  #2 subtitle
   \vspace{1.2em}
-  {\displayfont\bfseries\textProjectTitle #1}\\[3pt]
-  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\[8pt]}
+  {\displayfont\bfseries\textProjectTitle #1}\\*[3pt]
+  \ifblank{#2}{}{{\color{steel700}\itshape\textMetaLabel #2}\\*[8pt]}
   \noindent
 }
 
 \newcommand{\projectSummary}[1]{%
+  \needspace{3\baselineskip}
   \noindent\textBody #1\par\vspace{0.8em}
 }
 
 % ---- block: text — optional title above the paragraph, text runs the
-% full block width (no narrow-column restriction) --------------------
+% full block width (no narrow-column restriction). The title is
+% uppercased and colored like the metadata labels elsewhere in the
+% document (regardless of how it was capitalized in the YAML) so every
+% in-body heading reads as a clear, consistent section marker rather
+% than just another line of bold text. \needspace keeps the heading
+% from ever being stranded alone at the bottom of a page. ------------
 % #1 title (may be empty)  #2 content
 \newcommand{\projectText}[2]{%
-  \ifblank{#1}{}{{\displayfont\bfseries\textMetaLabel\color{graphite900} #1}\\[4pt]}
+  \ifblank{#1}{\needspace{3\baselineskip}}{%
+    \needspace{5\baselineskip}
+    {\displayfont\bfseries\textMetaLabel\color{blueprint500}\MakeUppercase{#1}}\\*[6pt]%
+  }%
   \noindent\textBody #2\par\vspace{0.8em}
 }
 
 % ---- block: photo -----------------------------------------------------
 % #1 image path  #2 title  #3 caption
-% width capped so any aspect ratio (portrait, panorama, square) sits
-% cleanly on the page without distortion; graphicx keeps aspect ratio
-% automatically when only one of width/height is given.
-\newcommand{\projectPhoto}[3]{%
+% #4 height (a LaTeX length, e.g. "0.55\textheight")
+% #5 width (a LaTeX length, e.g. "0.850\linewidth")
+% Both are computed per-block by scripts/build.py from
+% data/portfolio-pdf.yaml's layout.image_sizing (shrunk together so the
+% height cap actually takes effect on landscape images, not just
+% portrait ones), or overridden directly on a block via that block's
+% own pdf_height_frac. keepaspectratio means the smaller of the two
+% constraints wins, so any aspect ratio still sits cleanly without
+% distortion. The starred line breaks (\\*) below keep the image and
+% its caption lines attached as a unit — the image itself is already
+% one atomic box that can't be split mid-picture by TeX's page
+% breaker, so that's the only actual risk here. A \needspace
+% reservation is deliberately NOT used on this macro: it would fight
+% the point of the dynamic sizing above, pushing a correctly
+% right-sized image onto its own near-empty page instead of letting
+% it fit on the current one.
+\newcommand{\projectPhoto}[5]{%
   \begin{center}
     \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
     \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
-      \includegraphics[width=0.85\linewidth,height=0.6\textheight,keepaspectratio]{#1}%
-    }\\[4pt]
-    {\monofont\textCaption\color{blueprint500} #2}\\
+      \includegraphics[width=#5,height=#4,keepaspectratio]{#1}%
+    }\\*[4pt]
+    {\monofont\textCaption\color{blueprint500} #2}\\*
     {\textCaption\color{steel700} #3}
   \end{center}
   \vspace{0.8em}
@@ -81,35 +110,55 @@
 
 % ---- block: gallery / carousel (carousel is interactive on the site;
 % the PDF shows it as the same static grid as a gallery) ---------------
-\newenvironment{projectGallery}[1]{%
-  {\monofont\textMetaLabel\color{blueprint500} #1}\\[4pt]
+% #1 heading  #2 needspace reservation (a LaTeX length) — computed by
+% scripts/build.py from data/portfolio-pdf.yaml's
+% layout.image_sizing.gallery_item_height_frac, so the whole grid row
+% moves to a fresh page together rather than splitting mid-row.
+\newenvironment{projectGallery}[2]{%
+  \needspace{#2}
+  {\monofont\textMetaLabel\color{blueprint500}\MakeUppercase{#1}}\\*[4pt]
   \noindent
 }{%
   \vspace{0.8em}
 }
 % #1 image path  #2 title  #3 caption  #4 fractional width (e.g. 0.31)
-\newcommand{\projectGalleryItem}[4]{%
+% #5 height (a LaTeX length) — every gallery item uses the SAME fixed
+% height (computed by scripts/build.py), letterboxed on the frame
+% background via keepaspectratio, so a portrait photo next to landscape
+% ones doesn't tower over the rest of the row — every tile in a gallery
+% is a uniform box regardless of the source image's aspect ratio.
+\newcommand{\projectGalleryItem}[5]{%
   \begin{minipage}[t]{#4\linewidth}
     \centering
     \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
-    \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{\includegraphics[width=\linewidth]{#1}}\\[3pt]
-    {\monofont\tiny\color{blueprint500} #2}\\
+    \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
+      \includegraphics[width=\linewidth,height=#5,keepaspectratio]{#1}%
+    }\\*[3pt]
+    {\monofont\tiny\color{blueprint500} #2}\\*
     {\tiny\color{steel700} #3}
   \end{minipage}\hfill
 }
 
 % ---- block: video / stl (both are interactive on the site; the PDF
-% shows a fallback still frame with a pointer to the live version) ----
-% #1 fallback image  #2 title  #3 caption  #4 kind label ("VIDEO" / "3D MODEL")
-\newcommand{\projectInteractiveFallback}[4]{%
+% shows a fallback still frame with a plain link to the live version) ----
+% #1 fallback image  #2 title  #3 caption  #4 kind label ("VIDEO" / "3D MODEL",
+% kept for template compatibility but not displayed — the title/caption
+% already say what it is)
+% #5 height  #6 width (see \projectPhoto above)
+% #7 the project's URL on the live site (data/title.yaml's links.website
+% + this project's slug) — may be blank if no website is configured,
+% in which case no link line is shown at all rather than a dead one.
+\newcommand{\projectInteractiveFallback}[7]{%
   \begin{center}
     \fboxsep=0pt\fboxrule=\mediaBorderWidthVal
     \fcolorbox{\mediaBorderColor}{\mediaFrameColor}{%
-      \includegraphics[width=0.7\linewidth,height=0.5\textheight,keepaspectratio]{#1}%
-    }\\[4pt]
-    {\monofont\textCaption\color{signalamber} [#4 --- VIEW INTERACTIVE ON SITE]}\\
-    {\monofont\textCaption\color{blueprint500} #2}\\
-    {\textCaption\color{steel700} #3}
+      \includegraphics[width=#6,height=#5,keepaspectratio]{#1}%
+    }\\*[4pt]
+    {\monofont\textCaption\color{blueprint500} #2}\\*
+    {\textCaption\color{steel700} #3}\\*
+    \ifblank{#7}{}{%
+      \href{#7}{\textCaption\color{blueprint500} View on website}%
+    }
   \end{center}
   \vspace{0.8em}
 }
