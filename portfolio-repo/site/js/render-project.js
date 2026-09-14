@@ -264,8 +264,14 @@
     }
 
     try {
-      const projects = await fetchJSON('data/projects.json');
-      const project = projects.find((p) => p.slug === slug);
+      // data/projects.json is now grouped by category:
+      //   [{ slug: "professional", label: "...", projects: [...] }, ...]
+      // (this changed when project categories were introduced) — flatten
+      // across every category's projects list to find the one we want.
+      const categories = await fetchJSON('data/projects.json');
+      const project = categories
+        .flatMap((cat) => cat.projects || [])
+        .find((p) => p.slug === slug);
       if (!project) {
         if (bodyEl) bodyEl.innerHTML = `<p>Project "${slug}" not found.</p>`;
         return;

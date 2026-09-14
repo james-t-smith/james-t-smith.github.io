@@ -11,7 +11,7 @@ title_page:
   # data/title.yaml) — that part isn't optional. Everything below is
   # the "hero" portion, and it's fully optional: set show_hero: true
   # for a minimal, contact-info-only title page with nothing else on it.
-  show_hero: false
+  show_hero: true
 
   # Static fallback image shown on the title page. PDFs can't show the
   # site's interactive rotating STL hero, so this is a flat image
