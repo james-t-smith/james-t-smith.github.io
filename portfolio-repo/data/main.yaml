@@ -22,9 +22,9 @@ about:
 # remove this `highlights:` key entirely, to skip the section — nothing
 # renders and no empty space is left behind.
 highlights:
-  - "Currently open to Summer 2027 internships"
-  - "Based in Toronto, ON — open to remote or hybrid"
-  - "Actively building — see Work in Progress below"
+  - "Currently open to Winter 2027 internships"
+  # "Based in Toronto, ON — open to remote or hybrid"
+  #- "Actively building — see Work in Progress below"
 
 # Controls how data/projects/<category>/ subfolders are ordered and
 # labeled, both on the site and in the portfolio PDF. Any category
