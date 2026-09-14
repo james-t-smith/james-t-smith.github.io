@@ -1,9 +1,7 @@
-# One entry per internship. Add another "- title: ..." block for a second one.
-- title: "Mechatronics Intern"
+#One entry per internship. Add another "- title: ..." block for a second one.
+- title: "Advanced Manufacturing Intern"
   subtitle: "Automation Engineering"
-  dates: "May 2025 – Aug 2025"
-  org: "Example Robotics Co."
+  dates: "May 2026 – Aug 2026"
+  org: "Multimatic."
   description: >
-    Designed and validated a vision-guided pick-and-place fixture for
-    a production line, cutting cycle time by 12% and reducing manual
-    changeover steps from 6 to 2.
+    Programmed robots and developed software for researching and automating manufacturing proccesses.

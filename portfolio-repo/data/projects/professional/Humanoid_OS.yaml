@@ -20,10 +20,10 @@ short_description: >
 
 
 skills_demonstrated:
-  - "PID control tuning"
-  - "PCB layout and fabrication"
-  - "Embedded C firmware"
-  - "Sensor array calibration"
+  - "Real Time Operating Systems"
+  - "High Level Sensor Fusion"
+  - "Reinforcement/Machine Learning"
+  - "Robotics Application Development"
 
 links:
   github: "https://github.com/yourusername/line-follower-robot"

@@ -10,13 +10,11 @@ hero:
   # {location} is substituted from data/title.yaml's `location` at
   # build time. Drop it (or the whole key) if you'd rather not
   # reference location at all.
-  lede: "Based in {location}. Building robots, PCBs, and control systems."
+  lede: "Based in {location}."
 
 about:
   text: >
-    Placeholder about text — replace with your own background, interests,
-    and what you're looking for in an internship. Keep this to a short
-    paragraph or two; the projects should carry most of the weight.
+    Motivated and hard working student with a passion for robotics, looking for opportunities test my skills and grow my creative problem solving mindset.
 
 # Optional. A short list of small bullet points shown on the main page,
 # right under the hero (e.g. quick facts, current availability, a

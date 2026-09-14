@@ -7,7 +7,7 @@
         "slug": "Synthetic_CV",
         "title": "CAD to CV model suite",
         "subtitle": "Synthetic Dataset Generator and Computer Vision Model Training Suite that created detector ",
-        "dates": "May 2025 \u2013 Jul 2025",
+        "dates": "May 2026 \u2013 Aug 2026",
         "tags": [
           "Dataset Engineering",
           "Computer Vision",
@@ -112,7 +112,7 @@
         "slug": "Cobot_OS",
         "title": "Colaborative Robot Convayer Loader",
         "subtitle": "ROS based applicartion integrating a Colaborative Robot with Computer Vision system for an automated convayor loading application",
-        "dates": "Sep 2025 \u2013 Dec 2025",
+        "dates": "May 2026 \u2013 Aug 2026",
         "tags": [
           "Manufacturing Automation",
           "Computer Vision"
@@ -121,7 +121,7 @@
           "ROS2",
           "C++",
           "Python",
-          "ONNX Runtime",
+          "ONNX",
           "Ultralytics YOLO"
         ],
         "short_description": "A ROS2 application for manipulating a Yaskawa Motoman Colaborative Robot, streaming from a RGB-D camera,  and integrating the two with a YOLO based CV detector.\n",
@@ -171,7 +171,7 @@
         "slug": "Humanoid_OS",
         "title": "Humanoid Robot Operating System",
         "subtitle": "Lead software development for humanoid robot",
-        "dates": "Jan 2026 \u2013 Mar 2026",
+        "dates": "May 2026 \u2013 Aug 2026",
         "tags": [
           "Autonomus Humanoid Robotics",
           "Reinforcement Learning",
@@ -185,10 +185,10 @@
         ],
         "short_description": "A ROS2 based operating system for controlling a humanoid robot. Composing Computer Vision,  SLAM/Odometry, VLM based Reasoning, and Trained RL policies into a deployable humaoid robot operating stack. \n",
         "skills_demonstrated": [
-          "PID control tuning",
-          "PCB layout and fabrication",
-          "Embedded C firmware",
-          "Sensor array calibration"
+          "Real Time Operating Systems",
+          "High Level Sensor Fusion",
+          "Reinforcement/Machine Learning",
+          "Robotics Application Development"
         ],
         "links": {
           "github": "https://github.com/yourusername/line-follower-robot",
