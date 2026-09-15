@@ -11,7 +11,7 @@ title_page:
   # data/title.yaml) — that part isn't optional. Everything below is
   # the "hero" portion, and it's fully optional: set show_hero: true
   # for a minimal, contact-info-only title page with nothing else on it.
-  show_hero: true
+  show_hero: false
 
   # Static fallback image shown on the title page. PDFs can't show the
   # site's interactive rotating STL hero, so this is a flat image
@@ -63,4 +63,4 @@ layout:
     # in a gallery always uses this SAME height (letterboxed on the
     # frame background) — so a portrait photo next to landscape ones
     # doesn't tower over the row; every tile is a uniform box.
-    gallery_item_height_frac: 0.16
+    gallery_item_height_frac: 0.4

@@ -4,6 +4,121 @@
     "label": "Professional Projects",
     "projects": [
       {
+        "slug": "Humanoid_OS",
+        "title": "Humanoid Robot Operating System",
+        "subtitle": "Lead software development for humanoid robot",
+        "dates": "May 2026 \u2013 Aug 2026",
+        "tags": [
+          "Autonomus Humanoid Robotics",
+          "Reinforcement Learning",
+          "Real Time Operating System Design"
+        ],
+        "tools": [
+          "ROS2",
+          "NVDIA IssacLab",
+          "C++",
+          "Python"
+        ],
+        "short_description": "A ROS2 based operating system for controlling a humanoid robot. Composing Computer Vision,  SLAM/Odometry, VLM based Reasoning, and Trained RL policies into a deployable humaoid robot operating stack. \n",
+        "skills_demonstrated": [
+          "Real Time Operating Systems",
+          "High Level Sensor Fusion",
+          "Reinforcement/Machine Learning",
+          "Robotics Application Development"
+        ],
+        "preview_image": {
+          "src": "media/projects/Humanoid_OS/humanoid_preview.png",
+          "title": "Humanoid Robot and Custom Operator Dashboard",
+          "caption": "Still of the robot, and the dashboard with the reasoning (chatbot) interface, and the LiDAR costmap with a navigation path"
+        },
+        "blocks": [
+          {
+            "type": "gallery",
+            "title": "Concurrent Proccesses Within the Humanoid Operating System",
+            "items": [
+              {
+                "src": "media/projects/Humanoid_OS/Reasoning_Preview.png",
+                "title": "Reasoning Interface",
+                "caption": "Text based Chatbot interface for robot on web based dashboard."
+              },
+              {
+                "src": "media/projects/Humanoid_OS/Lidar_Map_Preview.png",
+                "title": "Lidar Map",
+                "caption": "Lidar Pointcloud Projection with Remembered Landmarks."
+              },
+              {
+                "src": "media/projects/Humanoid_OS/Vision_Preview.png",
+                "title": "Robot Perspective Vision",
+                "caption": "Live camera feed from the robot with live tracked detections."
+              },
+              {
+                "src": "media/projects/Humanoid_OS/ISSACLAB_Preview.png",
+                "title": "Robots In IssacLab",
+                "caption": "Robots developing a RL policy for pressing a button."
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "content": "The robot could work entirely autonomously, the local vision language model (A Lora fine tuned QWEN 3 model) could take text  or voice based input, and use python syntax and a simple robot API to create dynamic workflows. This allowed the reactivity  of artificial inteligence, and the predictability of typical code, perfect for a robot doing mostly repetitive tasks in a manufacturing setting.  The robot API included functions that allowed the model to navigate wherever it chose, execute trained actions, inspect tracked objects,  analyze its surroundings and react according to them. The model would also be able to handle failures, it had a recovery mode that would engage whenever one of the functions it called would return a failure, this prevented the robot from getting lost or trying to do an action that the robot could not preform.\n"
+          },
+          {
+            "type": "video",
+            "src": "media/projects/Humanoid_OS/Humanoid_Nav_2_Web.mp4",
+            "title": "Three Station Navigation",
+            "caption": "The Robot planning a workflow to visit three workstations, based on a text prompt, then going to all three.",
+            "play_type": "automatic",
+            "pdf_fallback": "media/projects/Humanoid_OS/nav_2_preview.png"
+          },
+          {
+            "type": "text",
+            "content": "Navigation and Odometry used a two tiered SLAM + April Tag anchor system spesifically designed for a robot on an industrial plant floor with multiple workstations  to precisely navigate to. Data from the Robots LiDAR was projected into a 2D costmap which dynamically stored traversable and non traversable terain, and remembered april tag landmarks. The mapping system  allowed for the use of a tradititional pathing algorithm (A*) for easy map traversal.   The first tier of the navigation included following the A* traversal, with regular route validation and replans to readt to a dynamic enviroment, to a dedicated remembered location where it could visibly see the april tag it was trying to navigate to. Once the desired tag was in view the robot could adjust itself by comparing its current 6D offset vector from the tag to the pre-captured offset vector using the tagas ground truth. This created a simple, yet modualar, interface for teaching the robot new navigation targtets: capture the desired offset, show the tag, and the robot is able to autonomously able to navigate to the new workstation. \n"
+          },
+          {
+            "type": "video",
+            "src": "media/projects/Humanoid_OS/Humanoid_Nav_1_Web.mp4",
+            "title": "Obstacle Avoidance and Workstsation Navigation",
+            "caption": "The robot navigating through doors, walking around tables, and docking to a spesific offset from a remembered tag.",
+            "play_type": "automatic",
+            "pdf_fallback": "media/projects/Humanoid_OS/nav_1_preview.png"
+          },
+          {
+            "type": "text",
+            "content": "A two tiered perception system was used to join the speed of trained CV models with the intelegence of the onboard VLM. The design of the perception stack was geared towards part inspection, classification, and quality checks. Custom CV models were implameted using an ONNX runtime based detector. These raw bounding box + orientation detections fed through a tracking algorithm that turned  raw, high frequency detections, into sustained object permanance. Using the cameras depth frame, tracked objects could be located in 3D space relative  to the robot, and also in the world coordinate system using simple transforms. The other end of the perception stack was the high level reasoning model. By inerfacing with the QWEN based VLM the robot could asses its surroundings, read instructions, and preform intelegent quality assesments on parts based on official specs. These quality assesments would recive only a crop of a bounding box detection and both text and images of what qualities of the part to judge. Composing these features together the robot could detect a spesific part, locate it 6D space, preform an assesment, and track the part holding onto its judgement.\n"
+          },
+          {
+            "type": "text",
+            "content": "Policies were developed in IssacLab by designing complex reward systems and training cirriculums. Once verified, the neural networks (ONNX) were transfered into the runtime stack, into a two tiered policy executor; high level policy control for permissions and transitions, and an ONNX runtime based policy runner. Policy execution used a forwards kinematics engine, and the traked detctions to target objects, for example the button press.\n"
+          },
+          {
+            "type": "video",
+            "src": "media/projects/Humanoid_OS/button_press_split.mp4",
+            "title": "Robot Button Press",
+            "caption": "Reinforcement learning policy in NVDIA IssacLab and deployed on hardare.",
+            "play_type": "automatic",
+            "pdf_fallback": "media/projects/Humanoid_OS/button_press_split_preview.png"
+          },
+          {
+            "type": "text",
+            "title": "next steps",
+            "content": "Using IssacLab to develop a part pickup policy was the next step in development. \n"
+          },
+          {
+            "type": "video",
+            "src": "media/projects/Humanoid_OS/part_pickup_sim.mp4",
+            "title": "Reinforcement Learning Part Pickup",
+            "caption": "Robot Picking Up a Part in NVDIA IssacLab developing a RL policy.",
+            "play_type": "automatic",
+            "pdf_fallback": "media/projects/Humanoid_OS/part_pickup_sim_preview.png"
+          },
+          {
+            "type": "text",
+            "title": "Project Outcome",
+            "content": "The humanoids operating system had the ability to navigate to any remembered april tag position.  The policy runner could run any RL policy dropped in from an ONNX file. Simalarly, the tracker could track any detection class based on active detector ONNX files.  The reasoning interface could carry out full conversations including describing the scene from the robots perspective, and the robot API library was easily expandable for new robot abilities.  \n"
+          }
+        ]
+      },
+      {
         "slug": "Synthetic_CV",
         "title": "CAD to CV model suite",
         "subtitle": "Synthetic Dataset Generator and Computer Vision Model Training Suite that created detector ",
@@ -164,121 +279,6 @@
             "type": "text",
             "title": "Project Outcome",
             "content": "The robot was able to load the fixture reliably for a layer of 20 parts. The detection model and camera calibration were able to transform coordinate systems within tolerence.  The main software stack created a modular colaborative robot interface reusable for any future applications. \n"
-          }
-        ]
-      },
-      {
-        "slug": "Humanoid_OS",
-        "title": "Humanoid Robot Operating System",
-        "subtitle": "Lead software development for humanoid robot",
-        "dates": "May 2026 \u2013 Aug 2026",
-        "tags": [
-          "Autonomus Humanoid Robotics",
-          "Reinforcement Learning",
-          "Real Time Operating System Design"
-        ],
-        "tools": [
-          "ROS2",
-          "NVDIA IssacLab",
-          "C++",
-          "Python"
-        ],
-        "short_description": "A ROS2 based operating system for controlling a humanoid robot. Composing Computer Vision,  SLAM/Odometry, VLM based Reasoning, and Trained RL policies into a deployable humaoid robot operating stack. \n",
-        "skills_demonstrated": [
-          "Real Time Operating Systems",
-          "High Level Sensor Fusion",
-          "Reinforcement/Machine Learning",
-          "Robotics Application Development"
-        ],
-        "preview_image": {
-          "src": "media/projects/Humanoid_OS/humanoid_preview.png",
-          "title": "Humanoid Robot and Custom Operator Dashboard",
-          "caption": "Still of the robot, and the dashboard with the reasoning (chatbot) interface, and the LiDAR costmap with a navigation path"
-        },
-        "blocks": [
-          {
-            "type": "gallery",
-            "title": "Concurrent Proccesses Within the Humanoid Operating System",
-            "items": [
-              {
-                "src": "media/projects/Humanoid_OS/Reasoning_Preview.png",
-                "title": "Reasoning Interface",
-                "caption": "Text based Chatbot interface for robot on web based dashboard."
-              },
-              {
-                "src": "media/projects/Humanoid_OS/Lidar_Map_Preview.png",
-                "title": "Lidar Map",
-                "caption": "Lidar Pointcloud Projection with Remembered Landmarks."
-              },
-              {
-                "src": "media/projects/Humanoid_OS/Vision_Preview.png",
-                "title": "Robot Perspective Vision",
-                "caption": "Live camera feed from the robot with live tracked detections."
-              },
-              {
-                "src": "media/projects/Humanoid_OS/ISSACLAB_Preview.png",
-                "title": "Robots In IssacLab",
-                "caption": "Robots developing a RL policy for pressing a button."
-              }
-            ]
-          },
-          {
-            "type": "text",
-            "content": "The robot could work entirely autonomously, the local vision language model (A Lora fine tuned QWEN 3 model) could take text  or voice based input, and use python syntax and a simple robot API to create dynamic workflows. This allowed the reactivity  of artificial inteligence, and the predictability of typical code, perfect for a robot doing mostly repetitive tasks in a manufacturing setting.  The robot API included functions that allowed the model to navigate wherever it chose, execute trained actions, inspect tracked objects,  analyze its surroundings and react according to them. The model would also be able to handle failures, it had a recovery mode that would engage whenever one of the functions it called would return a failure, this prevented the robot from getting lost or trying to do an action that the robot could not preform.\n"
-          },
-          {
-            "type": "video",
-            "src": "media/projects/Humanoid_OS/Humanoid_Nav_2_Web.mp4",
-            "title": "Three Station Navigation",
-            "caption": "The Robot planning a workflow to visit three workstations, based on a text prompt, then going to all three.",
-            "play_type": "automatic",
-            "pdf_fallback": "media/projects/Humanoid_OS/nav_2_preview.png"
-          },
-          {
-            "type": "text",
-            "content": "Navigation and Odometry used a two tiered SLAM + April Tag anchor system spesifically designed for a robot on an industrial plant floor with multiple workstations  to precisely navigate to. Data from the Robots LiDAR was projected into a 2D costmap which dynamically stored traversable and non traversable terain, and remembered april tag landmarks. The mapping system  allowed for the use of a tradititional pathing algorithm (A*) for easy map traversal.   The first tier of the navigation included following the A* traversal, with regular route validation and replans to readt to a dynamic enviroment, to a dedicated remembered location where it could visibly see the april tag it was trying to navigate to. Once the desired tag was in view the robot could adjust itself by comparing its current 6D offset vector from the tag to the pre-captured offset vector using the tagas ground truth. This created a simple, yet modualar, interface for teaching the robot new navigation targtets: capture the desired offset, show the tag, and the robot is able to autonomously able to navigate to the new workstation. \n"
-          },
-          {
-            "type": "video",
-            "src": "media/projects/Humanoid_OS/Humanoid_Nav_1_Web.mp4",
-            "title": "Obstacle Avoidance and Workstsation Navigation",
-            "caption": "The robot navigating through doors, walking around tables, and docking to a spesific offset from a remembered tag.",
-            "play_type": "automatic",
-            "pdf_fallback": "media/projects/Humanoid_OS/nav_1_preview.png"
-          },
-          {
-            "type": "text",
-            "content": "A two tiered perception system was used to join the speed of trained CV models with the intelegence of the onboard VLM. The design of the perception stack was geared towards part inspection, classification, and quality checks. Custom CV models were implameted using an ONNX runtime based detector. These raw bounding box + orientation detections fed through a tracking algorithm that turned  raw, high frequency detections, into sustained object permanance. Using the cameras depth frame, tracked objects could be located in 3D space relative  to the robot, and also in the world coordinate system using simple transforms. The other end of the perception stack was the high level reasoning model. By inerfacing with the QWEN based VLM the robot could asses its surroundings, read instructions, and preform intelegent quality assesments on parts based on official specs. These quality assesments would recive only a crop of a bounding box detection and both text and images of what qualities of the part to judge. Composing these features together the robot could detect a spesific part, locate it 6D space, preform an assesment, and track the part holding onto its judgement.\n"
-          },
-          {
-            "type": "text",
-            "content": "Policies were developed in IssacLab by designing complex reward systems and training cirriculums. Once verified, the neural networks (ONNX) were transfered into the runtime stack, into a two tiered policy executor; high level policy control for permissions and transitions, and an ONNX runtime based policy runner. Policy execution used a forwards kinematics engine, and the traked detctions to target objects, for example the button press.\n"
-          },
-          {
-            "type": "video",
-            "src": "media/projects/Humanoid_OS/button_press_split.mp4",
-            "title": "Robot Button Press",
-            "caption": "Reinforcement learning policy in NVDIA IssacLab and deployed on hardare.",
-            "play_type": "automatic",
-            "pdf_fallback": "media/projects/Humanoid_OS/button_press_split_preview.png"
-          },
-          {
-            "type": "text",
-            "title": "next steps",
-            "content": "Using IssacLab to develop a part pickup policy was the next step in development. \n"
-          },
-          {
-            "type": "video",
-            "src": "media/projects/Humanoid_OS/part_pickup_sim.mp4",
-            "title": "Reinforcement Learning Part Pickup",
-            "caption": "Robot Picking Up a Part in NVDIA IssacLab developing a RL policy.",
-            "play_type": "automatic",
-            "pdf_fallback": "media/projects/Humanoid_OS/part_pickup_sim_preview.png"
-          },
-          {
-            "type": "text",
-            "title": "Project Outcome",
-            "content": "The humanoids operating system had the ability to navigate to any remembered april tag position.  The policy runner could run any RL policy dropped in from an ONNX file. Simalarly, the tracker could track any detection class based on active detector ONNX files.  The reasoning interface could carry out full conversations including describing the scene from the robots perspective, and the robot API library was easily expandable for new robot abilities.  \n"
           }
         ]
       }

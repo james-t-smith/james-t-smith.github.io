@@ -45,6 +45,6 @@ project_categories:
   # filename) in the order you want it to appear; any project in that
   # category not listed here is appended afterward, alphabetically.
   project_order:
-    professional: ["Humonoid_OS","Synthetic_CV","Cobot_OS"]
+    professional: ["Humanoid_OS","Synthetic_CV","Cobot_OS"]
     # work-in-progress: ["smart-mirror"]
     # personal: ["robotic-arm"]
